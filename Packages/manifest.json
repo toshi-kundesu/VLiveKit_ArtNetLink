@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.toshi.vlivekit.testassetscontainer": "https://github.com/toshi-kundesu/VLiveKit_TestAssetsContainer.git?path=/Assets/toshi.VLiveKit/TestAssetsContainer#main",
     "com.unity.feature.development": "1.0.1",
     "com.unity.render-pipelines.high-definition": "14.0.8",
     "com.unity.textmeshpro": "3.0.6",

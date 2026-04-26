@@ -1,0 +1,13 @@
+{
+    "name": "com.toshi.vlivekit.artnetlink",
+    "displayName": "VLiveKit ArtNetLink",
+    "version": "0.0.1",
+    "unity": "2022.3",
+    "description": "VLiveKit ArtNetLink package",
+    "author": {
+      "name": "toshi"
+    },
+    "dependencies": {
+      "com.unity.cinemachine": "2.9.7"
+    }
+  }

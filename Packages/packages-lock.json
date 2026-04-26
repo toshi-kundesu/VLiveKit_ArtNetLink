@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.toshi.vlivekit.testassetscontainer": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_TestAssetsContainer.git?path=/Assets/toshi.VLiveKit/TestAssetsContainer#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "242042b447730269a81141d264a0403b8d3e1ced"
+    },
     "com.unity.burst": {
       "version": "1.8.8",
       "depth": 1,

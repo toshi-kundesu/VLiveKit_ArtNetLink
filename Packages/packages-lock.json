@@ -1,5 +1,30 @@
 {
   "dependencies": {
+    "com.toshi.vlivekit.cameraunit": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_camera.git?path=/Assets/toshi.VLiveKit/VLiveCameraUnit#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.cinemachine": "2.9.7"
+      },
+      "hash": "dcf0bb3a03cd63dd91ad6e46af7681777fb0b26b"
+    },
+    "com.toshi.vlivekit.ledvision": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_LEDVision.git?path=/Assets/toshi.VLiveKit/LEDVision#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d25f1375cd785d2f76d7ac517cbc3c4d1af45957"
+    },
+    "com.toshi.vlivekit.lensfilters": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_LiveLensFilters.git?path=/Assets/toshi.VLiveKit/LiveLensFilters#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.visual-compositor": "0.30.7-preview"
+      },
+      "hash": "a83c27335f4b890b00f5919c54c5a2dd1689f67b"
+    },
     "com.toshi.vlivekit.testassetscontainer": {
       "version": "https://github.com/toshi-kundesu/VLiveKit_TestAssetsContainer.git?path=/Assets/toshi.VLiveKit/TestAssetsContainer#main",
       "depth": 0,
@@ -7,12 +32,38 @@
       "dependencies": {},
       "hash": "242042b447730269a81141d264a0403b8d3e1ced"
     },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 3,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.barracuda": {
+      "version": "3.0.0",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.6.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.burst": {
       "version": "1.8.8",
       "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.mathematics": "1.2.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.cinemachine": {
+      "version": "2.9.7",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },
@@ -43,6 +94,16 @@
         "com.unity.test-framework": "1.1.33",
         "com.unity.testtools.codecoverage": "1.2.4"
       }
+    },
+    "com.unity.film-internal-utilities": {
+      "version": "0.19.2-preview",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.2.18",
+        "com.unity.modules.uielements": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
       "version": "3.0.24",
@@ -81,6 +142,15 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.recorder": {
+      "version": "4.0.1",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
@@ -126,6 +196,15 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.selection-groups": {
+      "version": "0.9.3-preview",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.film-internal-utilities": "0.19.1-preview"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.settings-manager": {
       "version": "2.0.1",
       "depth": 2,
@@ -141,6 +220,23 @@
         "com.unity.render-pipelines.core": "14.0.8",
         "com.unity.searcher": "4.9.2"
       }
+    },
+    "com.unity.streaming-image-sequence": {
+      "version": "0.17.2-preview",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.timeline": "1.2.18",
+        "com.unity.ext.nunit": "1.0.6",
+        "com.unity.editorcoroutines": "1.0.0",
+        "com.unity.modules.director": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0",
+        "com.unity.film-internal-utilities": "0.18.4-preview",
+        "com.unity.modules.imageconversion": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
       "version": "1.1.33",
@@ -192,6 +288,42 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
+    },
+    "com.unity.vectorgraphics": {
+      "version": "2.0.0-preview.20",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.2d.sprite": "1.0.0",
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.unitywebrequestwww": "1.0.0",
+        "com.unity.modules.unitywebrequesttexture": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.visual-compositor": {
+      "version": "0.30.7-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.recorder": "2.5.5",
+        "com.unity.timeline": "1.4.8",
+        "com.unity.barracuda": "2.4.0-preview",
+        "com.unity.vectorgraphics": "2.0.0-preview.20",
+        "com.unity.editorcoroutines": "1.0.0",
+        "com.unity.selection-groups": "0.9.3-preview",
+        "com.unity.render-pipelines.core": "10.6.0",
+        "com.unity.film-internal-utilities": "0.19.2-preview",
+        "com.unity.streaming-image-sequence": "0.17.2-preview"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.visualeffectgraph": {
       "version": "14.0.8",

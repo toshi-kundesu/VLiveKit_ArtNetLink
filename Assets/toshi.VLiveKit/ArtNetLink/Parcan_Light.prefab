@@ -41,10 +41,11 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221815354196825143}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 10
   m_Type: 0
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 47517.945
+  m_Intensity: 1781.9227
   m_Range: 8
   m_SpotAngle: 60
   m_InnerSpotAngle: 1
@@ -92,12 +93,8 @@ Light:
   m_BoundingSphereOverride: {x: 1.5580468e+28, y: 1.8314947e+25, z: 45992380, w: 4.616216e+24}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
   m_ShadowRadius: 0.05
   m_ShadowAngle: 0
-  m_LightUnit: 0
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
 --- !u!114 &7013659795006475858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,17 +107,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PointlightHDType: 0
-  m_SpotLightShape: 0
-  m_AreaLightShape: 0
-  m_EnableSpotReflector: 1
-  m_LightUnit: 0
-  m_LuxAtDistance: 1
   m_Intensity: 1500
+  m_EnableSpotReflector: 1
+  m_LuxAtDistance: 1
   m_InnerSpotPercent: 20
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 16
+  m_LightUnit: 0
   m_FadeDistance: 10000
   m_VolumetricFadeDistance: 10000
   m_AffectDiffuse: 1
@@ -140,27 +134,15 @@ MonoBehaviour:
   m_IESPoint: {fileID: 0}
   m_IESSpot: {fileID: 0}
   m_IncludeForRayTracing: 1
-  m_IncludeForPathTracing: 1
   m_AreaLightShadowCone: 120
   m_UseScreenSpaceShadows: 0
   m_InteractsWithSky: 1
   m_AngularDiameter: 0.5
-  diameterMultiplerMode: 0
-  diameterMultiplier: 1
-  diameterOverride: 0.5
-  celestialBodyShadingSource: 1
-  sunLightOverride: {fileID: 0}
-  sunColor: {r: 1, g: 1, b: 1, a: 1}
-  sunIntensity: 130000
-  moonPhase: 0.2
-  moonPhaseRotation: 0
-  earthshine: 1
-  flareSize: 2
-  flareTint: {r: 1, g: 1, b: 1, a: 1}
-  flareFalloff: 4
-  flareMultiplier: 1
-  surfaceTexture: {fileID: 0}
-  surfaceTint: {r: 1, g: 1, b: 1, a: 1}
+  m_FlareSize: 2
+  m_FlareTint: {r: 1, g: 1, b: 1, a: 1}
+  m_FlareFalloff: 4
+  m_SurfaceTexture: {fileID: 0}
+  m_SurfaceTint: {r: 1, g: 1, b: 1, a: 1}
   m_Distance: 1.5e+11
   m_UseRayTracedShadows: 0
   m_NumRayTracingSamples: 4
@@ -181,14 +163,6 @@ MonoBehaviour:
   m_BlockerSampleCount: 24
   m_FilterSampleCount: 16
   m_MinFilterSize: 0.1
-  m_DirLightPCSSBlockerSampleCount: 24
-  m_DirLightPCSSFilterSampleCount: 16
-  m_DirLightPCSSMaxPenumbraSize: 0.56
-  m_DirLightPCSSMaxSamplingDistance: 0.5
-  m_DirLightPCSSMinFilterSizeTexels: 1.5
-  m_DirLightPCSSMinFilterMaxAngularDiameter: 10
-  m_DirLightPCSSBlockerSearchAngularDiameter: 12
-  m_DirLightPCSSBlockerSamplingClumpExponent: 2
   m_KernelSize: 5
   m_LightAngle: 1
   m_MaxDepthBias: 0.001
@@ -240,6 +214,9 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
+  m_PointlightHDType: 0
+  m_SpotLightShape: 0
+  m_AreaLightShape: 0
 --- !u!1 &711360630666543665
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,37 +303,43 @@ MonoBehaviour:
   artNetChannels: {fileID: 0}
   receiver: {fileID: 0}
   light: {fileID: 7013659795006475858}
-  targetRenderer: {fileID: 2425799380025016860}
+  targetRenderers: []
   _RGBColor: _RGBColor
-  _WhitePram: _Brightness
   _Panpart: {fileID: 0}
   _Tiltpart: {fileID: 0}
-  useGobo: 0
-  goboIndex: 0
-  goboTextures: []
-  universe: 0
+  universe: 1
   startAdress: 1
   panChannel: 1
+  panFineChannel: 2
   tiltChannel: 2
+  tiltFineChannel: 4
   dimmerChannel: 3
   redChannel: 4
   greenChannel: 5
   blueChannel: 6
   whiteChannel: 7
+  zoomChannel: 10
+  goboChannel: 11
+  useWhiteChannel: 1
+  useZoom: 1
+  invertZoom: 1
+  minZoomAngle: 7
+  maxZoomAngle: 45
+  spotInnerRatio: 0.8
+  useGobo: 0
+  goboTextures: []
   maxLumen: 26466.67
-  MaxRendererIntensity: 5
+  maxRendererIntensity: 10
   colorTemperature: 3400
-  lightConeAngle: 30
-  lightInnerSpotPercent: 7.5
-  maxWhiteIntensity: 1
-  maxRGBIntensity: 1
-  lightSmoothness: 0.1
+  panTiltSmoothTime: 0.15
+  panSmoothTimeOverride: -1
+  tiltSmoothTimeOverride: -1
   panRotationAxis: 1
   tiltRotationAxis: 0
-  MaxPanAngle: -270
   MinPanAngle: 270
-  MaxTiltAngle: -135
+  MaxPanAngle: -270
   MinTiltAngle: 135
+  MaxTiltAngle: -135
   _p: 0
   _t: 0
   _i: 0
@@ -364,7 +347,7 @@ MonoBehaviour:
   _g: 0
   _b: 0
   _w: 0
-  testColor: {r: 1, g: 1, b: 1, a: 1}
+  _z: 0
 --- !u!1 &3643132032628183600
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,8 +389,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3643132032628183600}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 10
   m_Type: 0
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 3503.127
   m_Range: 8
@@ -457,12 +441,8 @@ Light:
   m_BoundingSphereOverride: {x: 1.5580468e+28, y: 1.8314947e+25, z: 45992380, w: 4.616216e+24}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
   m_ShadowRadius: 0.025
   m_ShadowAngle: 0
-  m_LightUnit: 0
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
 --- !u!114 &3277767881388005777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,17 +455,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PointlightHDType: 0
-  m_SpotLightShape: 0
-  m_AreaLightShape: 0
-  m_EnableSpotReflector: 1
-  m_LightUnit: 0
-  m_LuxAtDistance: 1
   m_Intensity: 750
+  m_EnableSpotReflector: 1
+  m_LuxAtDistance: 1
   m_InnerSpotPercent: 20
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
+  m_LightUnit: 0
   m_FadeDistance: 10000
   m_VolumetricFadeDistance: 10000
   m_AffectDiffuse: 1
@@ -505,27 +482,15 @@ MonoBehaviour:
   m_IESPoint: {fileID: 0}
   m_IESSpot: {fileID: 0}
   m_IncludeForRayTracing: 1
-  m_IncludeForPathTracing: 1
   m_AreaLightShadowCone: 120
   m_UseScreenSpaceShadows: 0
   m_InteractsWithSky: 1
   m_AngularDiameter: 0.5
-  diameterMultiplerMode: 0
-  diameterMultiplier: 1
-  diameterOverride: 0.5
-  celestialBodyShadingSource: 1
-  sunLightOverride: {fileID: 0}
-  sunColor: {r: 1, g: 1, b: 1, a: 1}
-  sunIntensity: 130000
-  moonPhase: 0.2
-  moonPhaseRotation: 0
-  earthshine: 1
-  flareSize: 2
-  flareTint: {r: 1, g: 1, b: 1, a: 1}
-  flareFalloff: 4
-  flareMultiplier: 1
-  surfaceTexture: {fileID: 0}
-  surfaceTint: {r: 1, g: 1, b: 1, a: 1}
+  m_FlareSize: 2
+  m_FlareTint: {r: 1, g: 1, b: 1, a: 1}
+  m_FlareFalloff: 4
+  m_SurfaceTexture: {fileID: 0}
+  m_SurfaceTint: {r: 1, g: 1, b: 1, a: 1}
   m_Distance: 1.5e+11
   m_UseRayTracedShadows: 0
   m_NumRayTracingSamples: 4
@@ -546,14 +511,6 @@ MonoBehaviour:
   m_BlockerSampleCount: 24
   m_FilterSampleCount: 16
   m_MinFilterSize: 0.1
-  m_DirLightPCSSBlockerSampleCount: 24
-  m_DirLightPCSSFilterSampleCount: 16
-  m_DirLightPCSSMaxPenumbraSize: 0.56
-  m_DirLightPCSSMaxSamplingDistance: 0.5
-  m_DirLightPCSSMinFilterSizeTexels: 1.5
-  m_DirLightPCSSMinFilterMaxAngularDiameter: 10
-  m_DirLightPCSSBlockerSearchAngularDiameter: 12
-  m_DirLightPCSSBlockerSamplingClumpExponent: 2
   m_KernelSize: 5
   m_LightAngle: 1
   m_MaxDepthBias: 0.001
@@ -605,6 +562,9 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
+  m_PointlightHDType: 0
+  m_SpotLightShape: 0
+  m_AreaLightShape: 0
 --- !u!1 &4696339378948264285
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,9 +623,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
@@ -750,9 +707,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
@@ -836,9 +790,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
@@ -922,9 +873,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:

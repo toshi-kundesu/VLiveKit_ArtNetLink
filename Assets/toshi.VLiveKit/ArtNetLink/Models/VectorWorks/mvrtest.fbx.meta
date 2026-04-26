@@ -1,0 +1,1087 @@
+fileFormatVersion: 2
+guid: b1706d3a8d0b8304187957de2ebbb192
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.001
+    second: {fileID: 2100000, guid: 453789d2aa8fe8f46b86701d6eaaa068, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.002
+    second: {fileID: 2100000, guid: fa5295f17aae5fd4998daeda2c998aac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.003
+    second: {fileID: 2100000, guid: a734ab8b6611cf44b8e0edf0386adad5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.004
+    second: {fileID: 2100000, guid: 09ae68094be69f348b57359b19a91998, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.005
+    second: {fileID: 2100000, guid: afb0c9dc76b1b3b42917812e43cae182, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.006
+    second: {fileID: 2100000, guid: 192778754e899d345b4912649a5cb8b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.007
+    second: {fileID: 2100000, guid: 89c8f2c6b0d5c3043a7c87e96c0f9876, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.008
+    second: {fileID: 2100000, guid: 25057aba34930e54a8d77b8fab947b8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.009
+    second: {fileID: 2100000, guid: 3bea402570f73d44185bbd63c8840e16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.010
+    second: {fileID: 2100000, guid: dba275590dec44247bb36d385e605069, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.011
+    second: {fileID: 2100000, guid: 8d322583e10a7cd4a9aa38dcabd0220e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.012
+    second: {fileID: 2100000, guid: 35a911765a6c37c4daed806e9efa49eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.013
+    second: {fileID: 2100000, guid: 25162f63f779a084783049ff2a6ddff3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.014
+    second: {fileID: 2100000, guid: c383ec774a431304cacece088f3faf71, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.015
+    second: {fileID: 2100000, guid: 1339262f6a2add24ea551c0e5b73bb67, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.016
+    second: {fileID: 2100000, guid: 4da56e4f99f8b0545afbb31e1ca52598, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.017
+    second: {fileID: 2100000, guid: 0bb6c89f8bcffe347a39a3888b37fbd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.018
+    second: {fileID: 2100000, guid: 72b0bf7926336874a89f3a97a901777f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.019
+    second: {fileID: 2100000, guid: 9956c73f51ccaf74c8c54627cc99c2e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.020
+    second: {fileID: 2100000, guid: def7f8c45934ddb4e9bb57dcb27e98e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.021
+    second: {fileID: 2100000, guid: 95449b9093205e64c890d82a09b36cf9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.022
+    second: {fileID: 2100000, guid: f80264facb67179408673f3ea4171dfd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.023
+    second: {fileID: 2100000, guid: 6710b48d0b569dd46a973aab87cf914c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Lamp.024
+    second: {fileID: 2100000, guid: 23febb8971592fd4f91a5854ef5ae735, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.001
+    second: {fileID: 2100000, guid: 184285aaab459a34da3d83df1f9851e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.002
+    second: {fileID: 2100000, guid: ef0a91b910e8a1246be641babfc17606, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.003
+    second: {fileID: 2100000, guid: da9ce7c97f3d1ec45ab6dc4fb528dd86, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.004
+    second: {fileID: 2100000, guid: 68307ea7347ccb8438ddc3d1bb4783ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.005
+    second: {fileID: 2100000, guid: 44d0de37722199549aa3aff4c0b280cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.006
+    second: {fileID: 2100000, guid: 60a8c36b0a77a524cb68300ed3c02e38, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.007
+    second: {fileID: 2100000, guid: 4b68df27d9f50334798f88e2578cd17b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.008
+    second: {fileID: 2100000, guid: d8a2c9966f03d614bbf208f1b166c3a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.009
+    second: {fileID: 2100000, guid: 57ba646ec6e6ed34fa6e3e31206aab01, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.010
+    second: {fileID: 2100000, guid: e2ab732cb42fa6a488a05e638c05dcc1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.011
+    second: {fileID: 2100000, guid: 2337673c3204abe4fb7b45b8d1447b76, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.012
+    second: {fileID: 2100000, guid: e60112860320ff6469bd10d4a3f565b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.013
+    second: {fileID: 2100000, guid: be346662edc78714e8d7d8ee84dba670, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.014
+    second: {fileID: 2100000, guid: 25289d7152832ab42b22616b6a4548b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.015
+    second: {fileID: 2100000, guid: 389370a2ee817ad45b6e6a32d17b1d35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.016
+    second: {fileID: 2100000, guid: 53690f9c96074da48a25779d6c256ac8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.017
+    second: {fileID: 2100000, guid: 9ecb0bf7049c8a64688b3112bd85a4d9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.018
+    second: {fileID: 2100000, guid: 467db696b8a9a0948a99337ca4437912, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.019
+    second: {fileID: 2100000, guid: 2c5432b427c59224dbd3b84099d19497, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.020
+    second: {fileID: 2100000, guid: 241644b480a7bde4084e83407b6f9a35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam RGB_Aura.021
+    second: {fileID: 2100000, guid: 32e4c5b37519e33499de872d4818c940, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.001
+    second: {fileID: 2100000, guid: 7502c4917f7e6dc48b3005be05f997ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.002
+    second: {fileID: 2100000, guid: 2558e3f3a5d8e514da97568fcae6ee2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.003
+    second: {fileID: 2100000, guid: 90bf853987bff2b478e6455bf13bb16f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.004
+    second: {fileID: 2100000, guid: 4cd7a2677f54b1d49814e4718b1e9cca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.005
+    second: {fileID: 2100000, guid: 982f31023b742144ea2a766fe2caa128, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.006
+    second: {fileID: 2100000, guid: 206607b344a166c43b798b5ac6ca1d45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.007
+    second: {fileID: 2100000, guid: 1d73b426ac3b68f418bb3162582e1838, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.008
+    second: {fileID: 2100000, guid: c25c242de4dfe7446830f0b61e69161b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.009
+    second: {fileID: 2100000, guid: 241444731d8d04e42a79a983638556a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.010
+    second: {fileID: 2100000, guid: 24d4b857735225f4da52ee8013463dc0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.011
+    second: {fileID: 2100000, guid: 1ac57e8d372eb004ab5795950fa06019, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.012
+    second: {fileID: 2100000, guid: e71600c924704184ba88321ef7e5e55a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.013
+    second: {fileID: 2100000, guid: 967d23d0003f6d1409e0c07580087f24, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.014
+    second: {fileID: 2100000, guid: 549848318fae5c74d828ecd17083e656, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.015
+    second: {fileID: 2100000, guid: d5e8b0bc9e6dde849a5fb1a0c5aa3ce1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.016
+    second: {fileID: 2100000, guid: 782fb48ddcea08445aca3a7c5fab8092, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.017
+    second: {fileID: 2100000, guid: 5fc315a9d72f16e4eb59c6ee982ad8d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.018
+    second: {fileID: 2100000, guid: 794e02fb30af3bb4da67ef2f1a93f612, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.019
+    second: {fileID: 2100000, guid: 5d8dedf0b57d0c3449e2b60c288786c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.020
+    second: {fileID: 2100000, guid: f9f51ea33f3269c4a804fef8ae522400, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam Tungsten.021
+    second: {fileID: 2100000, guid: e2ed7d5cb732afd4d8d0c4cf7b580e2f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.001
+    second: {fileID: 2100000, guid: 972e720cad410c341b6ba309ebda6943, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.002
+    second: {fileID: 2100000, guid: d7cdfa515f8aa9b4690e1eefaf1485a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.003
+    second: {fileID: 2100000, guid: ba1507bc10f258644b2d3314beee7ee6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.004
+    second: {fileID: 2100000, guid: 389ca38894709274d87f1c82c386c2bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.005
+    second: {fileID: 2100000, guid: 322a1c630fe1a174282c3d84dcf10929, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.006
+    second: {fileID: 2100000, guid: 1aa5e6b6255fad14690d95e28f8e2a12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.007
+    second: {fileID: 2100000, guid: cf08904d0265a7e46b5a6570b753602f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.008
+    second: {fileID: 2100000, guid: 5de02b61607a26843a461c6595182292, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.009
+    second: {fileID: 2100000, guid: 94b3d09a109dd954fb87f3c033b40ea7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.010
+    second: {fileID: 2100000, guid: 5d9f6f7a23d71144784770e1f5912743, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.011
+    second: {fileID: 2100000, guid: 7d2acb6403585f14c885bfb8ac34f884, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.012
+    second: {fileID: 2100000, guid: cf2e2a939cd39ba4784fb6ec8e62289b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.013
+    second: {fileID: 2100000, guid: fe6dd8ccc5f5f0b42a1b25146a38fef4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.014
+    second: {fileID: 2100000, guid: ccbde9e0e23f03040bf7e4c9a498d9b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.015
+    second: {fileID: 2100000, guid: 16a5ef176c0a3234cb8cbce02d143c88, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.016
+    second: {fileID: 2100000, guid: 09982be1245b13746a714e10a4f436ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.017
+    second: {fileID: 2100000, guid: 95f830a69984d944cb8b647e36e08bce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.019
+    second: {fileID: 2100000, guid: 28ced006278a5024a9dff43017e214de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.020
+    second: {fileID: 2100000, guid: 1c480db5cb4ba5a42ac510a0b35d9ca1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.021
+    second: {fileID: 2100000, guid: c84fcd615ca10d44682d039c9c6ab1f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.022
+    second: {fileID: 2100000, guid: cae18781886bd4b46adaf2c0a1baabfb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.023
+    second: {fileID: 2100000, guid: a30477034eafeec4ea8ff029867f3577, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.024
+    second: {fileID: 2100000, guid: b8cee67fc92abeb44bc60ae326685cfe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.025
+    second: {fileID: 2100000, guid: 8a3b0259ea4e42f4480f94b1eaee8b90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.026
+    second: {fileID: 2100000, guid: d7062d3f44f12bf4eab374da3efb96a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.027
+    second: {fileID: 2100000, guid: 7f8f8559cc8c203409e7486bd6afe9d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.028
+    second: {fileID: 2100000, guid: 74e7dbaacfaf51841b0134ff57ea33f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.029
+    second: {fileID: 2100000, guid: edad47986b1542d4893350f5ad16d2b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.030
+    second: {fileID: 2100000, guid: 684d844573db73b45b4ef35da8a94448, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.031
+    second: {fileID: 2100000, guid: 2fd1fb62719d14f46a256caedfbffcbe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.032
+    second: {fileID: 2100000, guid: 7cb755634edd0034f8fddab07e2ba9ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.033
+    second: {fileID: 2100000, guid: 9b5d3b6833b698a41be01fa7ba238db4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.034
+    second: {fileID: 2100000, guid: d25fcc44163db174fb179b4ecf689a27, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.035
+    second: {fileID: 2100000, guid: 491cdce6a2fa32e4382c27bd91745ad7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.036
+    second: {fileID: 2100000, guid: 3193ef113b80678439c7ad7a4b3792b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.037
+    second: {fileID: 2100000, guid: 858fb0efe7dc07241995d62093dce244, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.038
+    second: {fileID: 2100000, guid: 6af4e4a25e411064c8a87289254f89d8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.039
+    second: {fileID: 2100000, guid: 2f8281150f107f04bae3db52475d2e1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.040
+    second: {fileID: 2100000, guid: 193a660a07035a448940b09c84e50f15, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.041
+    second: {fileID: 2100000, guid: 7aeaf576059efd94daa705fb6b372c53, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.042
+    second: {fileID: 2100000, guid: b2c4f07467cb41d40aa2dbec2ae8325d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.043
+    second: {fileID: 2100000, guid: f08dd99927a124e4389dcd6e4be0273c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.044
+    second: {fileID: 2100000, guid: 058f89aa725d58845ac570ff034557f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.045
+    second: {fileID: 2100000, guid: 7bf23c41adae8194c84f1d83dcc20ebb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.046
+    second: {fileID: 2100000, guid: 76854ba694f09ce47bc5c8f4722d7fe5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.047
+    second: {fileID: 2100000, guid: dea55d5a7b506c944815c112e04d5fa7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.048
+    second: {fileID: 2100000, guid: d852932734fcd994aab641f5d49437dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.049
+    second: {fileID: 2100000, guid: 0bf5f72cdfa88c74d81a6b7a94b8194d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.050
+    second: {fileID: 2100000, guid: 0527609d32cb4644b91ff68954549da3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.051
+    second: {fileID: 2100000, guid: 908bf7dc5c3880d45a53f476a3e09dad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.052
+    second: {fileID: 2100000, guid: 69ab5e983d8761c4386778c7e97a6939, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.053
+    second: {fileID: 2100000, guid: 36e495f4a7e33754c85967306ac4f662, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.054
+    second: {fileID: 2100000, guid: 5c2ea0af2c0acbe4085feb50da7cc60c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.055
+    second: {fileID: 2100000, guid: 6a8352624fb30fb4591b320e1f5ab01d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.056
+    second: {fileID: 2100000, guid: 0a9ce98d0200a59468106f4cf9cdb52b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.057
+    second: {fileID: 2100000, guid: 36df503eb326f504dbe2bb0f9b7b9f0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.058
+    second: {fileID: 2100000, guid: 4ff83a9a26839d249b5477cc3cfcc661, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.059
+    second: {fileID: 2100000, guid: c27f3ad5cf900a649aa6bef4b5865273, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.060
+    second: {fileID: 2100000, guid: 1353b73fd51587e4c911a1e96f1a2c11, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.061
+    second: {fileID: 2100000, guid: 1a3343648a9abe84ca0ca6a925f6748d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.062
+    second: {fileID: 2100000, guid: 7c0a09746fe03bb4cb8a2b30a8577f3e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.063
+    second: {fileID: 2100000, guid: 44e6f7958bc08ee4d9cc1dd0f9d888a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.064
+    second: {fileID: 2100000, guid: 5ef4fe0418b02114e9a0419bc30cbecb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.065
+    second: {fileID: 2100000, guid: 69e77ceddbb5b164d8164682c6bdf0e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.066
+    second: {fileID: 2100000, guid: 9b642fbf38d5ba44abe697b2781b17e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.067
+    second: {fileID: 2100000, guid: 5d17f3379af35d945ad35c5d6f39343b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.068
+    second: {fileID: 2100000, guid: 14d118d5b290acd4db1eec16f15d7abd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.069
+    second: {fileID: 2100000, guid: 79d530d5f6c00124c920ef0ef96909c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.070
+    second: {fileID: 2100000, guid: 614c7ebd054011a4cb499248369fae15, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.071
+    second: {fileID: 2100000, guid: 48c95249b94caac4bbdd750eec2e68a3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.072
+    second: {fileID: 2100000, guid: f3c87057562c35c458f4f60db36a7499, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.073
+    second: {fileID: 2100000, guid: aa67048ec7ee62043b410b2faf9bde25, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.074
+    second: {fileID: 2100000, guid: a8975dcdc490c5847b47f426227ab74e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.075
+    second: {fileID: 2100000, guid: 91134d61ee7a11144ac25428d13b36ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.076
+    second: {fileID: 2100000, guid: 43fb2b3e4f501aa4d8a911f0da6b8790, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.077
+    second: {fileID: 2100000, guid: a2cbf97d6c0abdf4bb0bf326401b48cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.078
+    second: {fileID: 2100000, guid: 4b1d3845ced26b54390eb29f2ba70890, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.079
+    second: {fileID: 2100000, guid: b96449e39e68c0042b56b6a9c8f56fd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beam.080
+    second: {fileID: 2100000, guid: d0e84c751e13a054eb813496e0e63923, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 7d8f29774dd68b04f9af88c835c75f52, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: black
+    second: {fileID: 2100000, guid: 54382ef2d4af78149831bc2ee85e4d71, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "g_( \u01AF_________-___ RT"
+    second: {fileID: 2100000, guid: ba0679e41670977449369ceb2e854ef6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "g_( \u01AF_________-___ RT.001"
+    second: {fileID: 2100000, guid: 93b00e1349d41ac419805233375e70b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "g_( \u01AF_________-___ RT.002"
+    second: {fileID: 2100000, guid: 94169dc412045314e902832b3ab5fa58, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.001
+    second: {fileID: 2100000, guid: 409af62be5a16d14d8e7f2b1f3e9e0ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.002
+    second: {fileID: 2100000, guid: 420e8ad4230b1c345852d8406ccb1bb9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.003
+    second: {fileID: 2100000, guid: 8e4746d2d3132ff45a241b8809e8e950, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.004
+    second: {fileID: 2100000, guid: 5c5901682bfaf4549a4574533d70647d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.005
+    second: {fileID: 2100000, guid: 027deeeefd949aa4eb1979bf6c03e1ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.006
+    second: {fileID: 2100000, guid: 16acceec07ce1d6469a9384bbe00d49d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.007
+    second: {fileID: 2100000, guid: a7c589b0520af054083cee27d6cab484, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.008
+    second: {fileID: 2100000, guid: 85213387a47d1f441883a651ced174b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.009
+    second: {fileID: 2100000, guid: 5ef4e69e047631748a1f6983412b8e89, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.010
+    second: {fileID: 2100000, guid: 3c679597e94db8e4fb57e86de21c7a2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.011
+    second: {fileID: 2100000, guid: 934f9485d4a040c4888eb8521a9a4b37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.012
+    second: {fileID: 2100000, guid: 2826aa549bcc53543bf6dc6e550bba02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.013
+    second: {fileID: 2100000, guid: 60ed7868c84af1646ac1116aa4caf14f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.014
+    second: {fileID: 2100000, guid: 143638b0402fcfc45849fbfc1ed67884, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.015
+    second: {fileID: 2100000, guid: e5557eef3ba05a34abc5505ce0f17a45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.016
+    second: {fileID: 2100000, guid: 0da84626fb396774a99a3707e4f77fe4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.017
+    second: {fileID: 2100000, guid: 763269d7a7fda974eaf7df2e769e96cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.018
+    second: {fileID: 2100000, guid: d8bc3665f58702e478f9465eb232bcf1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.019
+    second: {fileID: 2100000, guid: 7f3c15e4ab46b3140ad81c41c01996c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.020
+    second: {fileID: 2100000, guid: bd0935a2dd5152d43a4be5924abc24ff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.021
+    second: {fileID: 2100000, guid: 50dcf3c91e7a1a944ad4fb0d8fa8db39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.022
+    second: {fileID: 2100000, guid: a71dee94ae61edc41b4ebeb7c8487567, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gobo Beam.023
+    second: {fileID: 2100000, guid: 9fe906239d341e24caaae83ed994f0f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Global_615efe23_51157111
+    second: {fileID: 2100000, guid: 9983ef67110ea334baae8280299bd753, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Global_615efe23_59105d02
+    second: {fileID: 2100000, guid: e2ad73a696df1ff43bb28394c374b919, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Global_615efe23_909ba749
+    second: {fileID: 2100000, guid: f008eb1ba01e2d048990ca5638d25ef1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material
+    second: {fileID: 2100000, guid: e125f6c755cc68e4e99e9711669dcb40, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.001
+    second: {fileID: 2100000, guid: cc720539f6cc14e4e90b882f6ae85a32, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.002
+    second: {fileID: 2100000, guid: 903e140c38bc0894e93d680f1bd689c0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.003
+    second: {fileID: 2100000, guid: 190942702b751fb49abb45db1d581e4a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.004
+    second: {fileID: 2100000, guid: b8e4b78f47de1104e961cf36369b9de6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.005
+    second: {fileID: 2100000, guid: a1cfb27923d7a9244a3fc43800fbf6fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.006
+    second: {fileID: 2100000, guid: 54958350dd17b3d4cb4336090ec2ce50, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.007
+    second: {fileID: 2100000, guid: d25adb352036234489dc2a6739281410, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.008
+    second: {fileID: 2100000, guid: 4093a8f8686ec9a4890178151f9a242c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.009
+    second: {fileID: 2100000, guid: 0a926ea68a5a04f4fa37c7f4836c1c2c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.010
+    second: {fileID: 2100000, guid: 8f86673712727744487db196e11fa065, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.011
+    second: {fileID: 2100000, guid: d4b2be5a42ede8b4881413273ef84b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.012
+    second: {fileID: 2100000, guid: d9dd3c27b0ad46243bfa1d13c16b3d37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.013
+    second: {fileID: 2100000, guid: f61167c82dfbeda499f9f6fb42a42240, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.014
+    second: {fileID: 2100000, guid: 7af848c4cb8dc854d87e290a9edc0338, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material.015
+    second: {fileID: 2100000, guid: 2a7e7277caa31a4428e5d880e110cb8d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "vs\u30D6\u30E9\u30C3\u30AF\u30B5\u30C6\u30F3"
+    second: {fileID: 2100000, guid: de4fecb18bf0f02409e780616de549f6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "vs\u30D6\u30E9\u30C3\u30AF\u30B5\u30C6\u30F3.001"
+    second: {fileID: 2100000, guid: 4180467b41012664da67960dd0bfd23b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "vs\u5929\u677F \u9ED2"
+    second: {fileID: 2100000, guid: dbe5fa45091f2c84682786d920a7b3a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "vs\u5929\u677F \u9ED2.001"
+    second: {fileID: 2100000, guid: 0ecb0761fa2216549ba493b82597bd0d, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

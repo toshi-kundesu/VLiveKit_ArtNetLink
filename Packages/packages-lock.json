@@ -25,12 +25,42 @@
       },
       "hash": "a83c27335f4b890b00f5919c54c5a2dd1689f67b"
     },
+    "com.toshi.vlivekit.livetoon": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_livetoon.git?path=/Assets/toshi.VLiveKit/livetoon#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "392c7a5bed345da01dd0049bd8523b541a9053d6"
+    },
+    "com.toshi.vlivekit.performeract": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_PerformerAct.git?path=/Assets/toshi.VLiveKit/PerformerAct#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7e71fc601cbfb0f77795a4a98797ab7921a7ff4b"
+    },
+    "com.toshi.vlivekit.stagebuilder": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_StageBuilder.git?path=/Assets/toshi.VLiveKit/StageBuilder#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.cinemachine": "2.9.7"
+      },
+      "hash": "84e8eac57d9e8b0c21a99918e2b09e2c9d4bbb56"
+    },
     "com.toshi.vlivekit.testassetscontainer": {
       "version": "https://github.com/toshi-kundesu/VLiveKit_TestAssetsContainer.git?path=/Assets/toshi.VLiveKit/TestAssetsContainer#main",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "242042b447730269a81141d264a0403b8d3e1ced"
+    },
+    "com.toshi.vlivekit.thirdpartyutilities": {
+      "version": "https://github.com/toshi-kundesu/VLiveKit_ThirdPartyUtilities.git?path=/Assets/toshi.VLiveKit/ThirdPartyUtilities#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7aab32fcde6a77fda7180a6ac8a7972f44cf5ca2"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -50,11 +80,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.8",
-      "depth": 1,
+      "version": "1.8.29",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.mathematics": "1.2.1"
+        "com.unity.mathematics": "1.2.1",
+        "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -64,6 +95,18 @@
       "source": "registry",
       "dependencies": {
         "com.unity.test-framework": "1.1.31"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.collections": {
+      "version": "2.2.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.8.8",
+        "com.unity.nuget.mono-cecil": "1.11.4",
+        "com.unity.modules.unityanalytics": "1.0.0",
+        "com.unity.test-framework.performance": "3.0.2"
       },
       "url": "https://packages.unity.com"
     },
@@ -131,7 +174,14 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {
-      "version": "1.2.6",
+      "version": "1.3.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.mono-cecil": {
+      "version": "1.11.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -245,6 +295,16 @@
       "dependencies": {
         "com.unity.ext.nunit": "1.0.6",
         "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.test-framework.performance": {
+      "version": "3.0.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31",
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"

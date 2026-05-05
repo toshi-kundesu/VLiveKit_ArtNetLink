@@ -809,7 +809,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: LTCGI_INCLUDED
+    Standalone: LTCGI_INCLUDED;MAGICACLOTH2
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

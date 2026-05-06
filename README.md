@@ -1,60 +1,31 @@
-## 概要
+# VLiveKit ArtNetLink
 
-VLiveKitの一部として開発している、  
-Art-Netベースの照明制御を行うためのUnity向けパッケージです。
+VLiveKit の一部として開発している、Art-Net / DMX 受信用の Unity package です。
 
-Unity上から照明の制御・記録を行うことを目的とし、  
-ライブ制作での使用を前提に設計しています。
+## Package
 
-現在は構成の整理および再実装を進めている段階です。
+- Package name: `com.toshi.vlivekit.artnetlink`
+- Version: `0.1.2`
+- Unity: 2022.3
+- Package root: `Assets/toshi.VLiveKit/ArtNetLink`
 
----
+## ArtNet Monitor
 
-## 機能（予定 / 一部実装）
+Unity メニューから開きます。
 
-- Art-NetによるDMXデータの受信
-- Unity上での照明制御
-- 照明状態の記録（レコーディング）
+`toshi > VLiveKit > Lighting > ArtNet Monitor`
 
-今後追加予定：
+### 受信チェック
 
-- Art-Net受信確認用モニタ
-- デバッグ・可視化ツール
-- 現場運用向け機能の拡張
+`Standalone Monitor` は、Play Mode に入らずに Art-Net の受信だけを確認するための monitor です。
 
----
+1. `Host` に受信に使うローカル IP アドレスを入れます。
+2. `Port` に Art-Net の UDP port を入れます。通常は `6454` です。
+3. `Start` を押します。
+4. 外部ツールや照明卓から Art-Net DMX を送ります。
 
-## 開発方針
+受信すると universe ごとに packet 数、最後に受信してからの経過時間、DMX payload 長、0 以外の channel 数、先頭 32 channel の値が表示されます。
 
-本パッケージは、実際のライブ制作で使用しながら  
-継続的に改善・拡張していくことを前提としています。
+シーン上で `VLiveArtNetReceiver` が有効になっている場合は、同じ window の `Scene Receivers` に表示されます。Play Mode 中の fixture 確認では、receiver の endpoint、selected universe、受信 channel 値をここで確認できます。
 
----
-
-## 依存・参考実装
-
-### OSCJack
-
-- Repository  
-  https://github.com/keijiro/OscJack
-
-- License  
-  Unlicense
-
-※ 本パッケージでは、主に受信処理の実装を参考にしています。
-
----
-
-## ライセンス
-
-本パッケージは **Unlicense** で公開されています。
-
-- https://unlicense.org/
-
-商用利用・改変・再配布など、用途に制限はありません。
-
-```csharp
-// VLiveKit is all Unlicense.
-// unlicense: https://unlicense.org/
-// this comment & namespace can be removed.
-// last update: 20##/##/##
+詳細は `Assets/toshi.VLiveKit/ArtNetLink/README.md` を参照してください。

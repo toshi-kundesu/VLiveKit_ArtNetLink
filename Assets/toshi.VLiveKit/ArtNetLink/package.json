@@ -1,18 +1,18 @@
-{
-  "name": "com.toshi.vlivekit.artnetlink",
-  "displayName": "VLiveKit ArtNetLink",
-  "version": "0.0.10",
-  "unity": "2022.3",
-  "description": "VLiveKit ArtNetLink package",
-  "author": {
-    "name": "toshi"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git"
-  },
-  "license": "Unlicense",
-  "dependencies": {
-    "com.unity.render-pipelines.high-definition": "14.0.8"
-  }
+﻿{
+    "name":  "com.toshi.vlivekit.artnetlink",
+    "displayName":  "VLiveKit ArtNetLink",
+    "version":  "0.1.0",
+    "unity":  "2022.3",
+    "description":  "VLiveKit ArtNetLink package",
+    "author":  {
+                   "name":  "toshi"
+               },
+    "repository":  {
+                       "type":  "git",
+                       "url":  "git+https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git"
+                   },
+    "license":  "Unlicense",
+    "dependencies":  {
+                         "com.unity.render-pipelines.high-definition":  "14.0.8"
+                     }
 }

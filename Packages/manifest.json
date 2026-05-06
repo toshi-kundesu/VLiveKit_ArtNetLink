@@ -1,9 +1,17 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "toshi",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.toshi"
+      ]
+    }
+  ],
   "dependencies": {
-    "com.toshi.vlivekit.cameraunit": "https://github.com/toshi-kundesu/VLiveKit_camera.git?path=/Assets/toshi.VLiveKit/VLiveCameraUnit#main",
-    "com.toshi.vlivekit.ledvision": "https://github.com/toshi-kundesu/VLiveKit_LEDVision.git?path=/Assets/toshi.VLiveKit/LEDVision#main",
-    "com.toshi.vlivekit.lensfilters": "https://github.com/toshi-kundesu/VLiveKit_LiveLensFilters.git?path=/Assets/toshi.VLiveKit/LiveLensFilters#main",
-    "com.toshi.vlivekit.testassetscontainer": "https://github.com/toshi-kundesu/VLiveKit_TestAssetsContainer.git?path=/Assets/toshi.VLiveKit/TestAssetsContainer#main",
+    "com.toshi.vlivekit.cameraunit": "0.0.1",
+    "com.toshi.vlivekit.ledvision": "0.0.1",
+    "com.toshi.vlivekit.testassetscontainer": "0.0.2",
     "com.unity.feature.development": "1.0.1",
     "com.unity.render-pipelines.high-definition": "14.0.8",
     "com.unity.textmeshpro": "3.0.6",

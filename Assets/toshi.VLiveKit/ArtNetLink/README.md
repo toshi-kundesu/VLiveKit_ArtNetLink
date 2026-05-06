@@ -5,7 +5,7 @@ Art-Net / DMX の受信と照明制御を VLiveKit から扱うための Unity p
 ## Package
 
 - Package name: `com.toshi.vlivekit.artnetlink`
-- Version: `0.1.4`
+- Version: `0.1.5`
 - Unity: 2022.3
 - Repository: https://github.com/toshi-kundesu/VLiveKit_ArtNetLink
 - Package root: `Assets/toshi.VLiveKit/ArtNetLink`
@@ -24,7 +24,7 @@ Unity の `Packages/manifest.json` の `dependencies` に追加します。
 ```json
 {
   "dependencies": {
-    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.4"
+    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.5"
   }
 }
 ```
@@ -57,7 +57,7 @@ Unity メニューから開きます。
 - `Sequence / Physical`: Art-Net packet の metadata
 - Channel preview: 先頭 32 channel の値
 
-`Standalone Monitor` は Play Mode に入らなくても使えます。`Stop Receiver` を押すか window を閉じると、monitor が作った UDP receiver は破棄されます。UDP port が既に別の receiver に使われている場合は、そちらを止めるか、下の `Scene Receivers` 側で確認してください。
+`Standalone Monitor` は Play Mode に入らなくても使えます。シーン上に `VLiveArtNetReceiver` がなくても、この window が一時的な UDP receiver を作って受信します。`Stop Receiver` を押すか window を閉じると、monitor が作った UDP receiver は破棄されます。UDP port が既に別の receiver に使われている場合は、そちらを止めるか、下の `Scene Receivers` 側で確認してください。
 
 ### Scene Receivers で確認する
 

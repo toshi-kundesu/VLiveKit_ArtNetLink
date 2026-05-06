@@ -35,14 +35,15 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             DrawToolbar();
             DrawStandaloneMonitor();
 
+            EditorGUILayout.Space(4f);
+            EditorGUILayout.LabelField("Scene Receivers (Optional)", EditorStyles.boldLabel);
             var receivers = VLiveArtNetReceiver.ActiveReceivers;
             if (receivers.Count == 0)
             {
-                EditorGUILayout.HelpBox("No active VLiveArtNetReceiver found in the scene.", MessageType.None);
+                EditorGUILayout.HelpBox("No scene VLiveArtNetReceiver is active. Standalone Monitor above can still receive Art-Net without any scene object.", MessageType.None);
                 return;
             }
 
-            EditorGUILayout.LabelField("Scene Receivers", EditorStyles.boldLabel);
             _scroll = EditorGUILayout.BeginScrollView(_scroll);
             foreach (var receiver in receivers)
             {
@@ -85,18 +86,29 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 EditorGUILayout.LabelField("Standalone VLiveArtNetReceiver", EditorStyles.boldLabel);
+                EditorGUILayout.HelpBox("This creates a temporary UDP receiver owned by this window. A scene VLiveArtNetReceiver is not required.", MessageType.None);
                 EditorGUILayout.Space(2f);
                 EditorGUILayout.LabelField("[ArtNet IP Address & Port]", EditorStyles.boldLabel);
 
                 using (new EditorGUI.DisabledScope(_isListening))
                 {
-                    _host = EditorGUILayout.TextField("Host", _host);
-                    _port = Mathf.Clamp(EditorGUILayout.IntField("Port", _port), 1, 65535);
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.LabelField("Host", GUILayout.Width(92f));
+                        _host = EditorGUILayout.TextField(_host);
+                        EditorGUILayout.LabelField("Port", GUILayout.Width(34f));
+                        _port = Mathf.Clamp(EditorGUILayout.IntField(_port, GUILayout.Width(72f)), 1, 65535);
+                    }
                 }
 
                 EditorGUILayout.Space(2f);
                 EditorGUILayout.LabelField("[ArtNet Receiver]", EditorStyles.boldLabel);
-                _universeToUse = Mathf.Clamp(EditorGUILayout.IntField("Universe To Use", _universeToUse), 0, 64);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.LabelField("Universe To Use", GUILayout.Width(126f));
+                    _universeToUse = Mathf.Clamp(EditorGUILayout.IntField(_universeToUse, GUILayout.Width(72f)), 0, 64);
+                    GUILayout.FlexibleSpace();
+                }
 
                 using (new EditorGUILayout.HorizontalScope())
                 {

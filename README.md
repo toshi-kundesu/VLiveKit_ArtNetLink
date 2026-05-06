@@ -5,7 +5,7 @@ VLiveKit の一部として開発している、Art-Net / DMX 受信用の Unity
 ## Package
 
 - Package name: `com.toshi.vlivekit.artnetlink`
-- Version: `0.1.6`
+- Version: `0.1.8`
 - Unity: 2022.3
 - Package root: `Assets/toshi.VLiveKit/ArtNetLink`
 

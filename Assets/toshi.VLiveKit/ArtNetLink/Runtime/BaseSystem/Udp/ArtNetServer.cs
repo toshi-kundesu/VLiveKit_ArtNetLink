@@ -21,8 +21,11 @@ namespace toshi.VLiveKit.Lighting
 {
     public sealed class ArtNetServer : IDisposable
     {
+        const int ReceiveTimeoutMilliseconds = 100;
+        const int DisposeJoinTimeoutMilliseconds = 500;
 
-        public ArtNetMessageDispatcher MessageDispatcher {
+        public ArtNetMessageDispatcher MessageDispatcher
+        {
             get { return _dispatcher; }
         }
 
@@ -30,19 +33,16 @@ namespace toshi.VLiveKit.Lighting
         {
             _dispatcher = new ArtNetMessageDispatcher();
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
-
-            _socket.ReceiveTimeout = 100;
-
+            _socket.ReceiveTimeout = ReceiveTimeoutMilliseconds;
             _socket.Bind(new IPEndPoint(IPAddress.Parse(host), listenPort));
-            // memo: Anyにすると、SocketExceptionが発生する
 
             _thread = new Thread(ServerLoop);
+            _thread.IsBackground = true;
             _thread.Start();
 
-            #if ARTNET_SERVER_LIST
+        #if ARTNET_SERVER_LIST
             _servers.Add(this);
-            #endif
+        #endif
         }
 
         public void Dispose()
@@ -50,9 +50,9 @@ namespace toshi.VLiveKit.Lighting
             Dispose(true);
             GC.SuppressFinalize(this);
 
-            #if ARTNET_SERVER_LIST
+        #if ARTNET_SERVER_LIST
             if (_servers != null) _servers.Remove(this);
-            #endif
+        #endif
         }
 
         void Dispose(bool disposing)
@@ -60,22 +60,27 @@ namespace toshi.VLiveKit.Lighting
             if (_disposed) return;
             _disposed = true;
 
-            if (disposing)
+            if (!disposing) return;
+
+            if (_socket != null)
             {
-                if (_socket != null)
-                {
-                    _socket.Close();
-                    _socket = null;
-                }
-
-                if (_thread != null)
-                {
-                    _thread.Join();
-                    _thread = null;
-                }
-
-                _dispatcher = null;
+                _socket.Close();
+                _socket = null;
             }
+
+            if (_thread != null)
+            {
+                if (!_thread.Join(DisposeJoinTimeoutMilliseconds))
+                {
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                    UnityEngine.Debug.LogWarning("ArtNetServer receive thread did not stop within timeout.");
+                #endif
+                }
+
+                _thread = null;
+            }
+
+            _dispatcher = null;
         }
 
         ~ArtNetServer()
@@ -83,7 +88,7 @@ namespace toshi.VLiveKit.Lighting
             Dispose(false);
         }
 
-        #if ARTNET_SERVER_LIST
+    #if ARTNET_SERVER_LIST
 
         static List<ArtNetServer> _servers = new List<ArtNetServer>(8);
         static ReadOnlyCollection<ArtNetServer> _serversReadOnly;
@@ -98,10 +103,9 @@ namespace toshi.VLiveKit.Lighting
             }
         }
 
-        #endif
+    #endif
 
         ArtNetMessageDispatcher _dispatcher;
-
         Socket _socket;
         Thread _thread;
         bool _disposed;
@@ -115,30 +119,45 @@ namespace toshi.VLiveKit.Lighting
             {
                 try
                 {
-                    // data length
-                    int dataRead = _socket.Receive(buffer);
+                    var socket = _socket;
+                    if (socket == null) break;
+
+                    int dataRead = socket.Receive(buffer);
                     if (!_disposed && dataRead > 0)
-                        parser.Parse(buffer); 
+                        parser.Parse(buffer);
                 }
-                catch (SocketException)
+                catch (SocketException e)
                 {
-                    // It might exited by timeout. Nothing to do.
+                    if (_disposed) break;
+                    if (e.SocketErrorCode == SocketError.TimedOut) continue;
+                    if (e.SocketErrorCode == SocketError.Interrupted) break;
+                    if (e.SocketErrorCode == SocketError.NotSocket) break;
+
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                    UnityEngine.Debug.Log(e);
+                #else
+                    Console.WriteLine(e);
+                #endif
+                    break;
+                }
+                catch (ObjectDisposedException)
+                {
+                    break;
                 }
                 catch (ThreadAbortException)
                 {
-                    // Abort silently.
+                    break;
                 }
                 catch (Exception e)
                 {
                 #if UNITY_EDITOR || UNITY_STANDALONE
                     if (!_disposed) UnityEngine.Debug.Log(e);
                 #else
-                    if (!_disposed) System.Console.WriteLine(e);
+                    if (!_disposed) Console.WriteLine(e);
                 #endif
                     break;
                 }
             }
         }
-
     }
 }

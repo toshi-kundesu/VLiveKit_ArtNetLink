@@ -6,7 +6,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using toshi.VLiveKit.Lighting;
+using System.Collections.ObjectModel;
 
 namespace toshi.VLiveKit.Lighting
 {
@@ -14,10 +14,25 @@ namespace toshi.VLiveKit.Lighting
     public sealed class VLiveArtNetReceiver : MonoBehaviour
     {
         public event Action<byte[]> OnDataReceived;
+
+        public static ReadOnlyCollection<VLiveArtNetReceiver> ActiveReceivers
+        {
+            get
+            {
+                if (_activeReceiversReadOnly == null)
+                    _activeReceiversReadOnly = new ReadOnlyCollection<VLiveArtNetReceiver>(_activeReceivers);
+                return _activeReceiversReadOnly;
+            }
+        }
+
+        public int UniverseToUse => _universeToUse;
+        public string CurrentHost => string.IsNullOrEmpty(_currentHost) ? (_connection?.host ?? "127.0.0.1") : _currentHost;
+        public int CurrentPort => _currentPort == 0 ? (_connection?.port ?? 6454) : _currentPort;
+
         [Range(0, 64)]
         [SerializeField] public int _universeToUse = 1;
         private Dictionary<int, Queue<byte[]>> _universeQueues = new Dictionary<int, Queue<byte[]>>();
-        // private Dictionary<int, int> _universeQueueCounts = new Dictionary<int, int>();
+        private Dictionary<int, ArtNetUniverseMonitorState> _monitorStates = new Dictionary<int, ArtNetUniverseMonitorState>();
 
         [Header("[ArtNet IP Address & Port]")]
         [SerializeField] ArtNetConnection _connection = null;
@@ -27,6 +42,23 @@ namespace toshi.VLiveKit.Lighting
 
         // in touch designer, 5 is used
         const int MaxQueueSize = 5;
+        readonly object _syncRoot = new object();
+        static List<VLiveArtNetReceiver> _activeReceivers = new List<VLiveArtNetReceiver>();
+        static ReadOnlyCollection<VLiveArtNetReceiver> _activeReceiversReadOnly;
+
+        public ArtNetUniverseMonitorSnapshot[] GetMonitorSnapshots()
+        {
+            lock (_syncRoot)
+            {
+                var snapshots = new ArtNetUniverseMonitorSnapshot[_monitorStates.Count];
+                int index = 0;
+                foreach (var pair in _monitorStates)
+                    snapshots[index++] = pair.Value.CreateSnapshot(pair.Key);
+
+                Array.Sort(snapshots, (a, b) => a.Universe.CompareTo(b.Universe));
+                return snapshots;
+            }
+        }
 
         void RegisterCallback()
         {
@@ -44,10 +76,8 @@ namespace toshi.VLiveKit.Lighting
         {
             if (_currentPort == 0)
             {
-                // OnEnableで呼ばれるので、ここではreturn
                 return;
             }
-            
 
             var server = ArtNetMaster.GetSharedServer(_currentHost, _currentPort);
             server.MessageDispatcher.RemoveCallback(OnDataReceive);
@@ -55,6 +85,9 @@ namespace toshi.VLiveKit.Lighting
 
         void OnEnable()
         {
+            if (!_activeReceivers.Contains(this))
+                _activeReceivers.Add(this);
+
             UnregisterCallback();
             RegisterCallback();
         }
@@ -62,6 +95,7 @@ namespace toshi.VLiveKit.Lighting
         void OnDisable()
         {
             UnregisterCallback();
+            _activeReceivers.Remove(this);
             // ArtNetMaster.ClearServers();
         }
 
@@ -72,35 +106,30 @@ namespace toshi.VLiveKit.Lighting
 
         void Update()
         {
-            if (_universeQueues.ContainsKey(_universeToUse))
+            List<byte[]> buffers = null;
+            lock (_syncRoot)
             {
-                ProcessQueue(_universeToUse);
+                if (_universeQueues.TryGetValue(_universeToUse, out var queue))
+                {
+                    buffers = new List<byte[]>(queue.Count);
+                    while (queue.Count > 0)
+                        buffers.Add(queue.Dequeue());
+                }
             }
-            else
-            {
-                // Debug.Log("No universe queue found for universe: " + _universeToUse);
-            }
-        }
 
-        void ProcessQueue(int universe)
-        {
-            // キューになってる時点でArtNetであることは確定
-            var queue = _universeQueues[universe];
-            while (queue.Count > 0)
-            {
-                var buffer = queue.Dequeue();
-                OnDataReceived?.Invoke(buffer);
-            }
+            if (buffers == null) return;
+            for (var i = 0; i < buffers.Count; i++)
+                OnDataReceived?.Invoke(buffers[i]);
         }
 
         void OnDataReceive(ArtNetDataHandle data)
         {
-            var _sharedBuffer = data.GetSharedBuffer();
-            var bufferCopy = new byte[_sharedBuffer.Length];
-            Array.Copy(_sharedBuffer, bufferCopy, _sharedBuffer.Length);
+            var sharedBuffer = data.GetSharedBuffer();
+            var bufferCopy = new byte[sharedBuffer.Length];
+            Array.Copy(sharedBuffer, bufferCopy, sharedBuffer.Length);
             int universe = data.GetUniverse();
 
-            lock (this)
+            lock (_syncRoot)
             {
                 if (!_universeQueues.ContainsKey(universe))
                 {
@@ -113,6 +142,75 @@ namespace toshi.VLiveKit.Lighting
                     queue.Dequeue();
                 }
                 queue.Enqueue(bufferCopy);
+
+                if (!_monitorStates.TryGetValue(universe, out var monitorState))
+                {
+                    monitorState = new ArtNetUniverseMonitorState();
+                    _monitorStates[universe] = monitorState;
+                }
+                monitorState.Update(data);
+            }
+        }
+
+        class ArtNetUniverseMonitorState
+        {
+            public long PacketCount { get; private set; }
+            public DateTime LastReceivedUtc { get; private set; }
+            public int Sequence { get; private set; }
+            public int Physical { get; private set; }
+            public int Length { get; private set; }
+            public byte[] Channels { get; private set; } = new byte[512];
+
+            public void Update(ArtNetDataHandle data)
+            {
+                PacketCount++;
+                LastReceivedUtc = DateTime.UtcNow;
+                Sequence = data.GetSequence();
+                Physical = data.GetPhysical();
+                Length = (data.GetLengthHi() << 8) | data.GetLengthLo();
+
+                var channels = data.GetArtNetChannels();
+                var length = Math.Min(Channels.Length, channels.Length);
+                Array.Clear(Channels, 0, Channels.Length);
+                Array.Copy(channels, Channels, length);
+            }
+
+            public ArtNetUniverseMonitorSnapshot CreateSnapshot(int universe)
+            {
+                var channels = new byte[Channels.Length];
+                Array.Copy(Channels, channels, Channels.Length);
+                return new ArtNetUniverseMonitorSnapshot(universe, PacketCount, LastReceivedUtc, Sequence, Physical, Length, channels);
+            }
+        }
+    }
+
+    public readonly struct ArtNetUniverseMonitorSnapshot
+    {
+        public ArtNetUniverseMonitorSnapshot(int universe, long packetCount, DateTime lastReceivedUtc, int sequence, int physical, int length, byte[] channels)
+        {
+            Universe = universe;
+            PacketCount = packetCount;
+            LastReceivedUtc = lastReceivedUtc;
+            Sequence = sequence;
+            Physical = physical;
+            Length = length;
+            Channels = channels;
+        }
+
+        public int Universe { get; }
+        public long PacketCount { get; }
+        public DateTime LastReceivedUtc { get; }
+        public int Sequence { get; }
+        public int Physical { get; }
+        public int Length { get; }
+        public byte[] Channels { get; }
+
+        public double SecondsSinceLastReceived
+        {
+            get
+            {
+                if (LastReceivedUtc == default) return double.PositiveInfinity;
+                return (DateTime.UtcNow - LastReceivedUtc).TotalSeconds;
             }
         }
     }

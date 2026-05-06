@@ -9,9 +9,9 @@
                              }
                          ],
     "dependencies":  {
-                         "com.toshi.vlivekit.cameraunit":  "0.0.2",
-                         "com.toshi.vlivekit.ledvision":  "0.0.2",
-                         "com.toshi.vlivekit.testassetscontainer":  "0.0.10",
+                         "com.toshi.vlivekit.cameraunit":  "0.0.3",
+                         "com.toshi.vlivekit.ledvision":  "0.0.3",
+                         "com.toshi.vlivekit.testassetscontainer":  "0.0.11",
                          "com.unity.feature.development":  "1.0.1",
                          "com.unity.render-pipelines.high-definition":  "14.0.8",
                          "com.unity.textmeshpro":  "3.0.6",

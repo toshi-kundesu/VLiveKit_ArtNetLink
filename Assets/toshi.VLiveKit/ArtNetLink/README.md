@@ -5,7 +5,7 @@ Art-Net / DMX の受信と照明制御を VLiveKit から扱うための Unity p
 ## Package
 
 - Package name: `com.toshi.vlivekit.artnetlink`
-- Version: `0.1.3`
+- Version: `0.1.4`
 - Unity: 2022.3
 - Repository: https://github.com/toshi-kundesu/VLiveKit_ArtNetLink
 - Package root: `Assets/toshi.VLiveKit/ArtNetLink`
@@ -24,7 +24,7 @@ Unity の `Packages/manifest.json` の `dependencies` に追加します。
 ```json
 {
   "dependencies": {
-    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.3"
+    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.4"
   }
 }
 ```

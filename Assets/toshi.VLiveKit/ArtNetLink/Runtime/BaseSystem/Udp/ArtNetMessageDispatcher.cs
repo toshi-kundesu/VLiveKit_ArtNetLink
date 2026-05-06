@@ -13,10 +13,11 @@ namespace toshi.VLiveKit.Lighting
         public delegate void MessageCallback(ArtNetDataHandle data);
 
         private MessageCallback _singleCallback;
+        readonly object _syncRoot = new object();
 
         public void AddCallback(MessageCallback callback)
         {
-            lock (this)
+            lock (_syncRoot)
             {
                 _singleCallback += callback;
             }
@@ -24,7 +25,7 @@ namespace toshi.VLiveKit.Lighting
 
         public void RemoveCallback(MessageCallback callback)
         {
-            lock (this)
+            lock (_syncRoot)
             {
                 _singleCallback -= callback;
             }
@@ -32,10 +33,11 @@ namespace toshi.VLiveKit.Lighting
 
         internal void Dispatch(ArtNetDataHandle data)
         {
-            lock (_singleCallback)
-            {
-                _singleCallback(data);
-            }
+            MessageCallback callback;
+            lock (_syncRoot)
+                callback = _singleCallback;
+
+            callback?.Invoke(data);
         }
     }
 }

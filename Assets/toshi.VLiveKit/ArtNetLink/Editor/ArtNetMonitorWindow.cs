@@ -18,6 +18,8 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         string _error;
         bool _isListening;
         ArtNetServer _server;
+        ArtNetMessageDispatcher.MessageCallback _standaloneCallback;
+        int _sessionId;
         readonly object _syncRoot = new object();
         readonly Dictionary<int, MonitorState> _standaloneStates = new Dictionary<int, MonitorState>();
 
@@ -152,7 +154,9 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             {
                 ClearStandaloneMonitor();
                 server = new ArtNetServer(_host, _port);
-                server.MessageDispatcher.AddCallback(OnStandaloneDataReceive);
+                var sessionId = ++_sessionId;
+                _standaloneCallback = data => OnStandaloneDataReceive(sessionId, data);
+                server.MessageDispatcher.AddCallback(_standaloneCallback);
                 _server = server;
                 server = null;
                 _isListening = true;
@@ -169,7 +173,9 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         void StopStandaloneMonitor()
         {
             var server = _server;
+            var callback = _standaloneCallback;
             _server = null;
+            _standaloneCallback = null;
             _isListening = false;
 
             if (server == null)
@@ -177,7 +183,9 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 
             try
             {
-                server.MessageDispatcher?.RemoveCallback(OnStandaloneDataReceive);
+                _sessionId++;
+                if (callback != null)
+                    server.MessageDispatcher?.RemoveCallback(callback);
             }
             finally
             {
@@ -207,8 +215,10 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             }
         }
 
-        void OnStandaloneDataReceive(ArtNetDataHandle data)
+        void OnStandaloneDataReceive(int sessionId, ArtNetDataHandle data)
         {
+            if (sessionId != _sessionId) return;
+
             lock (_syncRoot)
             {
                 var universe = data.GetUniverse();

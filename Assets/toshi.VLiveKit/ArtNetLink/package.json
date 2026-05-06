@@ -1,13 +1,21 @@
 {
-    "name": "com.toshi.vlivekit.artnetlink",
-    "displayName": "VLiveKit ArtNetLink",
-    "version": "0.0.1",
-    "unity": "2022.3",
-    "description": "VLiveKit ArtNetLink package",
-    "author": {
-      "name": "toshi"
-    },
-    "dependencies": {
-      "com.unity.cinemachine": "2.9.7"
-    }
+  "name": "com.toshi.vlivekit.artnetlink",
+  "displayName": "VLiveKit ArtNetLink",
+  "version": "0.0.1",
+  "unity": "2022.3",
+  "description": "VLiveKit ArtNetLink package",
+  "author": {
+    "name": "toshi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git"
+  },
+  "license": "Unlicense",
+  "dependencies": {
+    "com.unity.cinemachine": "2.9.7",
+    "com.toshi.vlivekit.cameraunit": "0.0.1",
+    "com.toshi.vlivekit.ledvision": "0.0.1",
+    "com.toshi.vlivekit.testassetscontainer": "0.0.2"
   }
+}

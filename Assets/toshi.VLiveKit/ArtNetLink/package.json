@@ -1,4 +1,4 @@
-﻿{
+{
     "name":  "com.toshi.vlivekit.artnetlink",
     "displayName":  "VLiveKit ArtNetLink",
     "version":  "0.0.1",
@@ -14,8 +14,8 @@
     "license":  "Unlicense",
     "dependencies":  {
                          "com.unity.cinemachine":  "2.9.7",
-                         "com.toshi.vlivekit.cameraunit":  "0.0.3",
-                         "com.toshi.vlivekit.ledvision":  "0.0.3",
-                         "com.toshi.vlivekit.testassetscontainer":  "0.0.11"
+                         "com.toshi.vlivekit.cameraunit":  "0.0.4",
+                         "com.toshi.vlivekit.ledvision":  "0.0.4",
+                         "com.toshi.vlivekit.testassetscontainer":  "0.0.12"
                      }
 }

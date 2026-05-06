@@ -14,6 +14,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         double _nextRepaintTime;
         string _host = "127.0.0.1";
         int _port = 6454;
+        int _universeToUse = 1;
         string _error;
         bool _isListening;
         ArtNetServer _server;
@@ -55,6 +56,11 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             StopStandaloneMonitor();
         }
 
+        void OnDestroy()
+        {
+            StopStandaloneMonitor();
+        }
+
         void Update()
         {
             if (EditorApplication.timeSinceStartup < _nextRepaintTime) return;
@@ -76,25 +82,38 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         {
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                EditorGUILayout.LabelField("Standalone Monitor", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Standalone VLiveArtNetReceiver", EditorStyles.boldLabel);
+                EditorGUILayout.Space(2f);
+                EditorGUILayout.LabelField("[ArtNet IP Address & Port]", EditorStyles.boldLabel);
+
+                using (new EditorGUI.DisabledScope(_isListening))
+                {
+                    _host = EditorGUILayout.TextField("Host", _host);
+                    _port = Mathf.Clamp(EditorGUILayout.IntField("Port", _port), 1, 65535);
+                }
+
+                EditorGUILayout.Space(2f);
+                EditorGUILayout.LabelField("[ArtNet Receiver]", EditorStyles.boldLabel);
+                _universeToUse = Mathf.Clamp(EditorGUILayout.IntField("Universe To Use", _universeToUse), 0, 64);
+
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    using (new EditorGUI.DisabledScope(_isListening))
-                    {
-                        _host = EditorGUILayout.TextField("Host", _host);
-                        _port = EditorGUILayout.IntField("Port", _port, GUILayout.Width(180f));
-                    }
-
                     if (!_isListening)
                     {
-                        if (GUILayout.Button("Start", GUILayout.Width(72f)))
+                        if (GUILayout.Button("Start Receiver", GUILayout.Width(120f)))
                             StartStandaloneMonitor();
                     }
                     else
                     {
-                        if (GUILayout.Button("Stop", GUILayout.Width(72f)))
+                        if (GUILayout.Button("Stop Receiver", GUILayout.Width(120f)))
                             StopStandaloneMonitor();
                     }
+
+                    if (GUILayout.Button("Clear", GUILayout.Width(72f)))
+                        ClearStandaloneMonitor();
+
+                    GUILayout.FlexibleSpace();
+                    EditorGUILayout.LabelField(_isListening ? "Listening" : "Stopped", EditorStyles.miniLabel, GUILayout.Width(72f));
                 }
 
                 if (!string.IsNullOrEmpty(_error))
@@ -103,12 +122,23 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 var snapshots = GetStandaloneSnapshots();
                 if (snapshots.Length == 0)
                 {
-                    EditorGUILayout.HelpBox(_isListening ? "Waiting for Art-Net DMX packets." : "Start listening to check Art-Net receive data.", MessageType.None);
+                    EditorGUILayout.HelpBox(_isListening ? "Waiting for Art-Net DMX packets." : "Start Receiver to check Art-Net receive data.", MessageType.None);
                     return;
                 }
 
+                var selectedSnapshot = FindSnapshot(snapshots, _universeToUse);
+                EditorGUILayout.LabelField("Selected Universe", EditorStyles.boldLabel);
+                if (selectedSnapshot.HasValue)
+                    DrawUniverse(selectedSnapshot.Value);
+                else
+                    EditorGUILayout.HelpBox($"No packet received for Universe {_universeToUse}.", MessageType.None);
+
+                EditorGUILayout.LabelField("Received Universes", EditorStyles.boldLabel);
                 foreach (var snapshot in snapshots)
+                {
+                    if (snapshot.Universe == _universeToUse) continue;
                     DrawUniverse(snapshot);
+                }
             }
         }
 
@@ -117,10 +147,14 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             StopStandaloneMonitor();
             _error = null;
 
+            ArtNetServer server = null;
             try
             {
-                _server = ArtNetMaster.GetSharedServer(_host, _port);
-                _server.MessageDispatcher.AddCallback(OnStandaloneDataReceive);
+                ClearStandaloneMonitor();
+                server = new ArtNetServer(_host, _port);
+                server.MessageDispatcher.AddCallback(OnStandaloneDataReceive);
+                _server = server;
+                server = null;
                 _isListening = true;
             }
             catch (Exception e)
@@ -128,16 +162,35 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 _error = e.Message;
                 _server = null;
                 _isListening = false;
+                server?.Dispose();
             }
         }
 
         void StopStandaloneMonitor()
         {
-            if (_server != null)
-                _server.MessageDispatcher.RemoveCallback(OnStandaloneDataReceive);
-
+            var server = _server;
             _server = null;
             _isListening = false;
+
+            if (server == null)
+                return;
+
+            try
+            {
+                server.MessageDispatcher?.RemoveCallback(OnStandaloneDataReceive);
+            }
+            finally
+            {
+                server.Dispose();
+            }
+        }
+
+        void ClearStandaloneMonitor()
+        {
+            lock (_syncRoot)
+            {
+                _standaloneStates.Clear();
+            }
         }
 
         ArtNetUniverseMonitorSnapshot[] GetStandaloneSnapshots()
@@ -167,6 +220,17 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 
                 state.Update(data);
             }
+        }
+
+        static ArtNetUniverseMonitorSnapshot? FindSnapshot(ArtNetUniverseMonitorSnapshot[] snapshots, int universe)
+        {
+            for (var i = 0; i < snapshots.Length; i++)
+            {
+                if (snapshots[i].Universe == universe)
+                    return snapshots[i];
+            }
+
+            return null;
         }
 
         void DrawReceiver(VLiveArtNetReceiver receiver)

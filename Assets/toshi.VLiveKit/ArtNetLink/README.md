@@ -5,7 +5,7 @@ Art-Net / DMX の受信と照明制御を VLiveKit から扱うための Unity p
 ## Package
 
 - Package name: `com.toshi.vlivekit.artnetlink`
-- Version: `0.1.2`
+- Version: `0.1.3`
 - Unity: 2022.3
 - Repository: https://github.com/toshi-kundesu/VLiveKit_ArtNetLink
 - Package root: `Assets/toshi.VLiveKit/ArtNetLink`
@@ -24,7 +24,7 @@ Unity の `Packages/manifest.json` の `dependencies` に追加します。
 ```json
 {
   "dependencies": {
-    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.2"
+    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.3"
   }
 }
 ```
@@ -46,7 +46,7 @@ Unity メニューから開きます。
    - 同じ PC から送る場合は `127.0.0.1`。
    - 別 PC や照明卓から送る場合は、受信 PC の LAN アダプタの IP アドレス。
 3. `Port` に Art-Net の UDP port を入れます。通常は `6454` です。
-4. `Start` を押します。
+4. `Start Receiver` を押します。
 5. 外部ツールや照明卓から Art-Net DMX を送ります。
 
 受信すると universe ごとに以下が表示されます。
@@ -57,7 +57,7 @@ Unity メニューから開きます。
 - `Sequence / Physical`: Art-Net packet の metadata
 - Channel preview: 先頭 32 channel の値
 
-`Standalone Monitor` は Play Mode に入らなくても使えます。UDP port が既に別の receiver に使われている場合は、そちらを止めるか、下の `Scene Receivers` 側で確認してください。
+`Standalone Monitor` は Play Mode に入らなくても使えます。`Stop Receiver` を押すか window を閉じると、monitor が作った UDP receiver は破棄されます。UDP port が既に別の receiver に使われている場合は、そちらを止めるか、下の `Scene Receivers` 側で確認してください。
 
 ### Scene Receivers で確認する
 

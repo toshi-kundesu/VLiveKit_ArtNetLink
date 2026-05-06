@@ -56,7 +56,7 @@ Unity メニューから開きます。
 - `Last Received`: 最後に受信してからの経過時間
 - `Length / Non Zero`: DMX payload 長と、0 以外の channel 数
 - `Sequence / Physical`: Art-Net packet の metadata
-- Channel preview: 先頭 32 channel の値
+- Channel preview: 512 channel の値
 
 複数 universe を受けている場合は `Universe Packet State` で一覧できます。Universe 番号を押すと、その universe を `Selected Universe` に切り替えて channel bar を確認できます。
 

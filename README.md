@@ -24,7 +24,7 @@ Unity メニューから開きます。
 3. `Start Receiver` を押します。
 4. 外部ツールや照明卓から Art-Net DMX を送ります。
 
-受信すると universe ごとに `LIVE` / `STALE` / `LOST` の状態、packet 数、最後に受信してからの経過時間、DMX payload 長、0 以外の channel 数、先頭 32 channel の値が表示されます。複数 universe は `Universe Packet State` で一覧できます。シーン上に `VLiveArtNetReceiver` がなくても、この window が一時的な UDP receiver を作って受信します。`Stop Receiver` を押すか window を閉じると、monitor が作った UDP receiver は破棄されます。
+受信すると universe ごとに `LIVE` / `STALE` / `LOST` の状態、packet 数、最後に受信してからの経過時間、DMX payload 長、0 以外の channel 数、512 channel のプレビューが表示されます。複数 universe は `Universe Packet State` で一覧できます。シーン上に `VLiveArtNetReceiver` がなくても、この window が一時的な UDP receiver を作って受信します。`Stop Receiver` を押すか window を閉じると、monitor が作った UDP receiver は破棄されます。
 
 シーン上で `VLiveArtNetReceiver` が有効になっている場合は、同じ window の `Scene Receivers` に表示されます。Play Mode 中の fixture 確認では、receiver の endpoint、selected universe、受信 channel 値をここで確認できます。
 

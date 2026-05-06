@@ -9,7 +9,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 {
     public sealed class ArtNetMonitorWindow : EditorWindow
     {
-        const int PreviewChannelCount = 32;
+        const int PreviewChannelCount = 512;
         const double LiveThresholdSeconds = 0.75d;
         const double StaleThresholdSeconds = 3d;
         Vector2 _mainScroll;
@@ -377,13 +377,14 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 
         void DrawChannelMeters(byte[] channels, int length)
         {
-            EditorGUILayout.LabelField("Channel Preview 1-32", EditorStyles.boldLabel);
-            const int columns = 16;
-            const float rowHeight = 36f;
+            EditorGUILayout.LabelField("Channel Preview 1-512", EditorStyles.boldLabel);
+            const int columns = 64;
+            const float rowHeight = 18f;
             var rows = Mathf.CeilToInt(PreviewChannelCount / (float)columns);
             var rect = GUILayoutUtility.GetRect(1f, rows * rowHeight, GUILayout.ExpandWidth(true));
             var cellWidth = rect.width / columns;
             var max = Mathf.Min(PreviewChannelCount, length, channels.Length);
+            var showText = cellWidth >= 18f;
 
             for (var i = 0; i < PreviewChannelCount; i++)
             {
@@ -393,15 +394,16 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 var value = i < max ? channels[i] : 0;
                 EditorGUI.DrawRect(cell, new Color(0.16f, 0.16f, 0.16f));
 
-                var fillHeight = Mathf.Lerp(0f, cell.height - 14f, value / 255f);
-                var fill = new Rect(cell.x + 2f, cell.yMax - 12f - fillHeight, cell.width - 4f, fillHeight);
+                var fillHeight = Mathf.Lerp(0f, cell.height - 4f, value / 255f);
+                var fill = new Rect(cell.x + 1f, cell.yMax - 2f - fillHeight, cell.width - 2f, fillHeight);
                 EditorGUI.DrawRect(fill, new Color(0.1f, 0.72f, 0.34f));
 
-                var label = new Rect(cell.x, cell.y + 1f, cell.width, 12f);
-                var valueRect = new Rect(cell.x, cell.yMax - 13f, cell.width, 12f);
-                var style = new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.MiddleCenter };
-                GUI.Label(label, (i + 1).ToString(), style);
-                GUI.Label(valueRect, value.ToString(), style);
+                if (showText)
+                {
+                    var valueRect = new Rect(cell.x, cell.y + 1f, cell.width, cell.height - 2f);
+                    var style = new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.MiddleCenter };
+                    GUI.Label(valueRect, value.ToString(), style);
+                }
             }
         }
 

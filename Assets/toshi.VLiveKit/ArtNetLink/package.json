@@ -1,7 +1,7 @@
 ﻿{
     "name":  "com.toshi.vlivekit.artnetlink",
     "displayName":  "VLiveKit ArtNetLink",
-    "version":  "0.1.8",
+    "version":  "0.1.9",
     "unity":  "2022.3",
     "description":  "VLiveKit ArtNetLink package",
     "author":  {
@@ -12,6 +12,13 @@
                        "url":  "git+https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git"
                    },
     "license":  "Unlicense",
+    "samples":  [
+                    {
+                        "displayName":  "Empty Scene",
+                        "description":  "A blank scene for starting a VLiveKit ArtNetLink setup.",
+                        "path":  "Samples~/Empty Scene"
+                    }
+                ],
     "dependencies":  {
                          "com.unity.render-pipelines.high-definition":  "14.0.8"
                      }

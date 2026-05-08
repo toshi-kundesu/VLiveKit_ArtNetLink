@@ -17,7 +17,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         double _nextRepaintTime;
         string _host = "127.0.0.1";
         int _port = 6454;
-        int _universeToUse = 1;
+        int _universeToUse = 0;
         string _error;
         bool _isListening;
         ArtNetServer _server;
@@ -95,6 +95,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             {
                 EditorGUILayout.LabelField("Standalone VLiveArtNetReceiver", EditorStyles.boldLabel);
                 EditorGUILayout.HelpBox("This creates a temporary UDP receiver owned by this window. A scene VLiveArtNetReceiver is not required.", MessageType.None);
+                EditorGUILayout.HelpBox("Art-Net universe numbers are sent as 0-based values. Some lighting software labels Universe 1 while sending Universe 0, so use this monitor to confirm the actual incoming universe.", MessageType.Info);
                 EditorGUILayout.Space(2f);
                 EditorGUILayout.LabelField("[ArtNet IP Address & Port]", EditorStyles.boldLabel);
 

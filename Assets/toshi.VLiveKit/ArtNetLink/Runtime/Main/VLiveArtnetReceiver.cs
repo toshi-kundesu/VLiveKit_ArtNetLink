@@ -30,7 +30,7 @@ namespace toshi.VLiveKit.Lighting
         public int CurrentPort => _currentPort == 0 ? (_connection?.port ?? 6454) : _currentPort;
 
         [Range(0, 64)]
-        [SerializeField] public int _universeToUse = 1;
+        [SerializeField] public int _universeToUse = 0;
         private Dictionary<int, Queue<byte[]>> _universeQueues = new Dictionary<int, Queue<byte[]>>();
         private Dictionary<int, ArtNetUniverseMonitorState> _monitorStates = new Dictionary<int, ArtNetUniverseMonitorState>();
 

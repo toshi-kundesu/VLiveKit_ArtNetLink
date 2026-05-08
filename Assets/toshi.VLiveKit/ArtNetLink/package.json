@@ -1,7 +1,7 @@
 ﻿{
     "name":  "com.toshi.vlivekit.artnetlink",
     "displayName":  "VLiveKit ArtNetLink",
-    "version":  "0.1.12",
+    "version":  "0.1.13",
     "unity":  "2022.3",
     "description":  "VLiveKit ArtNetLink package",
     "author":  {
@@ -13,6 +13,11 @@
                    },
     "license":  "Unlicense",
     "samples":  [
+                    {
+                        "displayName":  "ArtNetLink Simple Test",
+                        "description":  "A simple Art-Net receiver and moving light test scene.",
+                        "path":  "Samples~/ArtNetLink Simple Test"
+                    },
                     {
                         "displayName":  "Empty Scene",
                         "description":  "A blank scene for starting a VLiveKit ArtNetLink setup.",

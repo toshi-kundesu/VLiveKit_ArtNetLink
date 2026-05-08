@@ -16,11 +16,31 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         Once
     }
 
+    enum FixturePanTiltTestMode
+    {
+        Center,
+        Circle
+    }
+
+    enum FixtureDimmerTestMode
+    {
+        Full,
+        Sine,
+        FlashSmoothFade
+    }
+
+    enum FixtureColorTestMode
+    {
+        White,
+        CmyLoop
+    }
+
     public sealed class ArtNetSendTestWindow : EditorWindow
     {
         const int UniverseCount = 10;
-        const int FaderCount = 10;
+        const int FaderCount = ArtNetDmxSender.ChannelCount;
         const int ButtonWidth = 64;
+        const int TestFixtureFootprint = 6;
 
         [SerializeField] ArtNetSendTargetMode _targetMode = ArtNetSendTargetMode.Broadcast;
         [SerializeField] ArtNetSendTestOutputMode _outputMode = ArtNetSendTestOutputMode.LiveDesk;
@@ -28,9 +48,22 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         [SerializeField] string _broadcastAddress = "255.255.255.255";
         [SerializeField] int _port = ArtNetDmxSender.DefaultPort;
         [SerializeField] bool _isLiveSending;
+        [SerializeField] bool _isTestSignalSending;
         [SerializeField] float _sendRate = 30f;
+        [SerializeField] int _visibleChannelCount = 16;
         [SerializeField] int[] _values;
         [SerializeField] bool[] _universeEnabled;
+        [SerializeField] bool[] _universeFoldouts;
+        [SerializeField] bool _showDestination = true;
+        [SerializeField] bool _showTransport = true;
+        [SerializeField] bool _showTestSignalControls;
+        [SerializeField] int _testUniverse = 0;
+        [SerializeField] int _testStartAddress = 1;
+        [SerializeField] int _testFixtureCount = 1;
+        [SerializeField] float _testSpeed = 0.1f;
+        [SerializeField] FixturePanTiltTestMode _panTiltMode = FixturePanTiltTestMode.Circle;
+        [SerializeField] FixtureDimmerTestMode _dimmerMode = FixtureDimmerTestMode.Sine;
+        [SerializeField] FixtureColorTestMode _colorMode = FixtureColorTestMode.CmyLoop;
 
         ArtNetDmxSender _sender;
         Vector2 _scrollPosition;
@@ -41,6 +74,12 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         public static void Open()
         {
             GetWindow<ArtNetSendTestWindow>("ArtNet Send Test");
+        }
+
+        [MenuItem("toshi/VLiveKit/Lighting/SendTestArtNet")]
+        public static void OpenSendTestArtNet()
+        {
+            GetWindow<ArtNetSendTestWindow>("SendTestArtNet");
         }
 
         void OnEnable()
@@ -71,6 +110,8 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             EditorGUILayout.Space(6f);
             DrawTransport();
             EditorGUILayout.Space(6f);
+            DrawTestSignal();
+            EditorGUILayout.Space(6f);
             DrawFaders();
             EditorGUILayout.Space(4f);
             EditorGUILayout.LabelField(_status, EditorStyles.miniLabel);
@@ -80,7 +121,12 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         {
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                EditorGUILayout.LabelField("Destination", EditorStyles.boldLabel);
+                _showDestination = EditorGUILayout.Foldout(_showDestination, "Destination", true, EditorStyles.foldoutHeader);
+                if (!_showDestination)
+                {
+                    EditorGUILayout.LabelField(CurrentAddress + ":" + _port, EditorStyles.miniLabel);
+                    return;
+                }
 
                 _targetMode = (ArtNetSendTargetMode)EditorGUILayout.EnumPopup("Target Mode", _targetMode);
 
@@ -98,11 +144,19 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         {
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
+                _showTransport = EditorGUILayout.Foldout(_showTransport, "Transport", true, EditorStyles.foldoutHeader);
+                if (!_showTransport)
+                {
+                    EditorGUILayout.LabelField("State", GetOutputStateLabel(), EditorStyles.miniLabel);
+                    return;
+                }
+
                 EditorGUI.BeginChangeCheck();
                 var outputMode = (ArtNetSendTestOutputMode)EditorGUILayout.EnumPopup("Output Mode", _outputMode);
                 if (EditorGUI.EndChangeCheck())
                 {
                     StopLiveSending("Stopped");
+                    StopTestSignal(null);
                     _outputMode = outputMode;
                 }
 
@@ -118,7 +172,10 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                         else
                         {
                             if (GUILayout.Button("Send Stop", EditorStyles.miniButtonLeft, GUILayout.Width(100f)))
+                            {
                                 StopLiveSending("Stopped");
+                                StopTestSignal("Stopped");
+                            }
                         }
                     }
                     else
@@ -128,10 +185,16 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                     }
 
                     if (GUILayout.Button("Blackout", EditorStyles.miniButtonMid, GUILayout.Width(80f)))
+                    {
+                        StopTestSignal("Test signal stopped");
                         SetAllFaders(0, true);
+                    }
 
                     if (GUILayout.Button("Full", EditorStyles.miniButtonRight, GUILayout.Width(64f)))
+                    {
+                        StopTestSignal("Test signal stopped");
                         SetAllFaders(255, true);
+                    }
                 }
 
                 using (new EditorGUI.DisabledScope(_outputMode != ArtNetSendTestOutputMode.LiveDesk))
@@ -143,8 +206,69 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             }
         }
 
+        void DrawTestSignal()
+        {
+            using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                var titleStyle = new GUIStyle(EditorStyles.boldLabel)
+                {
+                    normal = { textColor = new Color(1f, 0.72f, 0.18f) }
+                };
+
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    _showTestSignalControls = EditorGUILayout.Foldout(_showTestSignalControls, "TEST SIGNAL ONLY - SendTestArtNet", true, titleStyle);
+                    GUILayout.FlexibleSpace();
+                    EditorGUILayout.LabelField(_isTestSignalSending ? "RUNNING" : "OFF", EditorStyles.miniLabel, GUILayout.Width(58f));
+                }
+
+                if (!_showTestSignalControls)
+                {
+                    EditorGUILayout.HelpBox("Test signal controls are hidden by default. Expand only when you want SendTestArtNet to drive the faders automatically.", MessageType.None);
+                    return;
+                }
+
+                EditorGUILayout.HelpBox("This is a temporary test signal generator. It only drives the faders below and sends those fader values. Confirm the actual receiving universe with ArtNet Monitor before debugging fixtures.", MessageType.Warning);
+                EditorGUILayout.LabelField("Channel Map", "1: Pan, 2: Tilt, 3: Dimmer, 4: R, 5: G, 6: B", EditorStyles.miniLabel);
+
+                _testUniverse = Mathf.Clamp(EditorGUILayout.IntField("Universe (0-based)", _testUniverse), 0, UniverseCount - 1);
+                _testStartAddress = Mathf.Clamp(EditorGUILayout.IntField("Start Address", _testStartAddress), 1, ArtNetDmxSender.ChannelCount);
+                var maxCount = Mathf.Max(1, (ArtNetDmxSender.ChannelCount - _testStartAddress + 1) / TestFixtureFootprint);
+                _testFixtureCount = Mathf.Clamp(EditorGUILayout.IntField("Fixture Count", _testFixtureCount), 1, maxCount);
+                _testSpeed = EditorGUILayout.Slider("Speed", _testSpeed, 0.1f, 4f);
+
+                EditorGUILayout.Space(2f);
+                _panTiltMode = (FixturePanTiltTestMode)EditorGUILayout.EnumPopup("Pan / Tilt", _panTiltMode);
+                _dimmerMode = (FixtureDimmerTestMode)EditorGUILayout.EnumPopup("Dimmer", _dimmerMode);
+                _colorMode = (FixtureColorTestMode)EditorGUILayout.EnumPopup("Color", _colorMode);
+
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (!_isTestSignalSending)
+                    {
+                        if (GUILayout.Button("SendTestArtNet Start", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
+                            StartTestSignal();
+                    }
+                    else
+                    {
+                        if (GUILayout.Button("SendTestArtNet Stop", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
+                            StopTestSignal("Test signal stopped");
+                    }
+
+                    if (GUILayout.Button("Blackout", EditorStyles.miniButtonRight, GUILayout.Width(80f)))
+                        SendBlackoutTestUniverse();
+                }
+            }
+        }
+
         void DrawFaders()
         {
+            using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.LabelField("Faders", EditorStyles.boldLabel);
+                _visibleChannelCount = Mathf.Clamp(EditorGUILayout.IntSlider("Visible Faders", _visibleChannelCount, 6, 128), 6, FaderCount);
+            }
+
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
             for (var universe = 0; universe < UniverseCount; universe++)
@@ -153,10 +277,8 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 {
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        _universeEnabled[universe] = EditorGUILayout.ToggleLeft(
-                            "Universe " + universe,
-                            _universeEnabled[universe],
-                            EditorStyles.boldLabel);
+                        _universeFoldouts[universe] = EditorGUILayout.Foldout(_universeFoldouts[universe], "Universe " + universe, true);
+                        _universeEnabled[universe] = EditorGUILayout.ToggleLeft("Enabled", _universeEnabled[universe], GUILayout.Width(82f));
 
                         if (GUILayout.Button("0", EditorStyles.miniButtonLeft, GUILayout.Width(ButtonWidth)))
                             SetUniverseFaders(universe, 0, true);
@@ -168,9 +290,15 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                             SendUniverse(universe);
                     }
 
+                    if (!_universeFoldouts[universe])
+                    {
+                        EditorGUILayout.LabelField(BuildUniverseSummary(universe), EditorStyles.miniLabel);
+                        continue;
+                    }
+
                     using (new EditorGUI.DisabledScope(!_universeEnabled[universe]))
                     {
-                        for (var fader = 0; fader < FaderCount; fader++)
+                        for (var fader = 0; fader < _visibleChannelCount; fader++)
                         {
                             var valueIndex = GetValueIndex(universe, fader);
                             EditorGUI.BeginChangeCheck();
@@ -190,12 +318,21 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 
         void OnEditorUpdate()
         {
-            if (_outputMode != ArtNetSendTestOutputMode.LiveDesk || !_isLiveSending) return;
+            if (!_isLiveSending && !_isTestSignalSending) return;
 
             var now = EditorApplication.timeSinceStartup;
             if (now < _nextSendTime) return;
 
-            SendAllEnabledUniverses();
+            if (_isTestSignalSending)
+            {
+                ApplyTestSignalToFaders();
+                SendUniverse(_testUniverse);
+            }
+            else if (_outputMode == ArtNetSendTestOutputMode.LiveDesk)
+            {
+                SendAllEnabledUniverses();
+            }
+
             _nextSendTime = now + 1.0 / Mathf.Clamp(_sendRate, 1f, 60f);
         }
 
@@ -210,8 +347,6 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 
         void StopLiveSending(string status)
         {
-            if (!_isLiveSending) return;
-
             _isLiveSending = false;
             _nextSendTime = 0;
             if (!string.IsNullOrEmpty(status))
@@ -263,6 +398,96 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             return channels;
         }
 
+        void StartTestSignal()
+        {
+            _isTestSignalSending = true;
+            _outputMode = ArtNetSendTestOutputMode.LiveDesk;
+            _universeEnabled[_testUniverse] = true;
+            _nextSendTime = 0;
+            ApplyTestSignalToFaders();
+            SendUniverse(_testUniverse);
+            _status = "TEST SIGNAL SendTestArtNet started: universe " + _testUniverse + " to " + CurrentAddress + ":" + _port;
+        }
+
+        void StopTestSignal(string status)
+        {
+            if (!_isTestSignalSending) return;
+
+            _isTestSignalSending = false;
+            _nextSendTime = 0;
+            if (!string.IsNullOrEmpty(status))
+                _status = status;
+        }
+
+        void ApplyTestSignalToFaders()
+        {
+            SetUniverseFaders(_testUniverse, 0, false);
+            var time = (float)EditorApplication.timeSinceStartup * _testSpeed;
+            for (var fixture = 0; fixture < _testFixtureCount; fixture++)
+            {
+                var baseIndex = _testStartAddress - 1 + fixture * TestFixtureFootprint;
+                if (baseIndex < 0 || baseIndex + TestFixtureFootprint > FaderCount) break;
+
+                var phase = time + fixture * 0.18f;
+                GetFixtureTestValues(phase, out var pan, out var tilt, out var dimmer, out var color);
+                _values[GetValueIndex(_testUniverse, baseIndex)] = ToByte(pan);
+                _values[GetValueIndex(_testUniverse, baseIndex + 1)] = ToByte(tilt);
+                _values[GetValueIndex(_testUniverse, baseIndex + 2)] = ToByte(dimmer);
+                _values[GetValueIndex(_testUniverse, baseIndex + 3)] = ToByte(color.r);
+                _values[GetValueIndex(_testUniverse, baseIndex + 4)] = ToByte(color.g);
+                _values[GetValueIndex(_testUniverse, baseIndex + 5)] = ToByte(color.b);
+            }
+        }
+
+        void GetFixtureTestValues(float phase, out float pan, out float tilt, out float dimmer, out Color color)
+        {
+            if (_panTiltMode == FixturePanTiltTestMode.Circle)
+            {
+                pan = 0.5f + Mathf.Sin(phase * Mathf.PI * 2f) * 0.45f;
+                tilt = 0.5f + Mathf.Cos(phase * Mathf.PI * 2f) * 0.45f;
+            }
+            else
+            {
+                pan = 0.5f;
+                tilt = 0.5f;
+            }
+
+            switch (_dimmerMode)
+            {
+                case FixtureDimmerTestMode.Sine:
+                    dimmer = 0.5f + Mathf.Sin(phase * Mathf.PI * 2f) * 0.5f;
+                    break;
+                case FixtureDimmerTestMode.FlashSmoothFade:
+                    dimmer = Mathf.Exp(-Mathf.Repeat(phase, 1f) * 5f);
+                    break;
+                default:
+                    dimmer = 1f;
+                    break;
+            }
+
+            color = _colorMode == FixtureColorTestMode.CmyLoop
+                ? EvaluateCmyLoop(Mathf.Repeat(phase * 0.2f, 1f))
+                : Color.white;
+        }
+
+        void SendBlackoutTestUniverse()
+        {
+            if (_sender == null)
+                _sender = new ArtNetDmxSender();
+
+            try
+            {
+                _sender.SendDmx(CurrentAddress, _port, _testUniverse, new byte[ArtNetDmxSender.ChannelCount], _targetMode);
+                SetUniverseFaders(_testUniverse, 0, false);
+                StopTestSignal(null);
+                _status = "Sent fixture test blackout universe " + _testUniverse + " to " + CurrentAddress + ":" + _port;
+            }
+            catch (Exception exception)
+            {
+                _status = "Send failed: " + exception.Message;
+            }
+        }
+
         void SetAllFaders(int value, bool send)
         {
             for (var i = 0; i < _values.Length; i++)
@@ -290,6 +515,13 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 for (var i = 0; i < _universeEnabled.Length; i++)
                     _universeEnabled[i] = true;
             }
+
+            if (_universeFoldouts == null || _universeFoldouts.Length != UniverseCount)
+            {
+                _universeFoldouts = new bool[UniverseCount];
+                if (_universeFoldouts.Length > 0)
+                    _universeFoldouts[0] = true;
+            }
         }
 
         int GetValueIndex(int universe, int fader)
@@ -302,7 +534,45 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             if (_outputMode == ArtNetSendTestOutputMode.Once)
                 return "Once";
 
+            if (_isTestSignalSending)
+                return "TEST SIGNAL SendTestArtNet sending";
+
             return _isLiveSending ? "Live Desk sending" : "Live Desk stopped";
+        }
+
+        static byte ToByte(float value)
+        {
+            return (byte)Mathf.RoundToInt(Mathf.Clamp01(value) * 255f);
+        }
+
+        static Color EvaluateCmyLoop(float t)
+        {
+            if (t < 1f / 3f)
+                return Color.Lerp(Color.cyan, Color.magenta, t * 3f);
+
+            if (t < 2f / 3f)
+                return Color.Lerp(Color.magenta, Color.yellow, (t - 1f / 3f) * 3f);
+
+            return Color.Lerp(Color.yellow, Color.cyan, (t - 2f / 3f) * 3f);
+        }
+
+        string BuildUniverseSummary(int universe)
+        {
+            var nonZero = 0;
+            var previewCount = Mathf.Min(8, FaderCount);
+            var preview = "";
+            for (var i = 0; i < FaderCount; i++)
+            {
+                var value = _values[GetValueIndex(universe, i)];
+                if (value != 0) nonZero++;
+                if (i < previewCount)
+                {
+                    if (i > 0) preview += "  ";
+                    preview += "Ch" + (i + 1) + ":" + value;
+                }
+            }
+
+            return "Non Zero: " + nonZero + "    " + preview;
         }
 
         string CurrentAddress

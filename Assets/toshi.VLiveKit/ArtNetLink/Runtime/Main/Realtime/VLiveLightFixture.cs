@@ -77,6 +77,10 @@ namespace toshi.VLiveKit.Lighting
         [Header("[White Channel]")]
         [SerializeField] private bool useWhiteChannel = true;
 
+        [Header("[Pan & Tilt Fine Channels]")]
+        [SerializeField] private bool usePanFineChannel = true;
+        [SerializeField] private bool useTiltFineChannel = true;
+
         [Header("[Zoom]")]
         [SerializeField] private bool useZoom = true;
 
@@ -123,7 +127,7 @@ namespace toshi.VLiveKit.Lighting
         [SerializeField] private float tiltSmoothTimeOverride = -1f;
 
         [Header("[Pan & Tilt Parameters]")]
-        [SerializeField] private MovingRotationAxis panRotationAxis = MovingRotationAxis.Y;
+        [SerializeField] private MovingRotationAxis panRotationAxis = MovingRotationAxis.Z;
         [SerializeField] private MovingRotationAxis tiltRotationAxis = MovingRotationAxis.X;
 
         [SerializeField] private float MinPanAngle = 270f;
@@ -216,8 +220,8 @@ namespace toshi.VLiveKit.Lighting
         {
             int baseIndex = startAdress - 1;
 
-            _p = Normalize16(data, baseIndex + panChannel - 1, baseIndex + panFineChannel - 1);
-            _t = Normalize16(data, baseIndex + tiltChannel - 1, baseIndex + tiltFineChannel - 1);
+            _p = Normalize8Or16(data, baseIndex + panChannel - 1, baseIndex + panFineChannel - 1, usePanFineChannel);
+            _t = Normalize8Or16(data, baseIndex + tiltChannel - 1, baseIndex + tiltFineChannel - 1, useTiltFineChannel);
 
             _i = Get8(data, baseIndex + dimmerChannel - 1);
             _r = Get8(data, baseIndex + redChannel - 1);
@@ -429,6 +433,14 @@ namespace toshi.VLiveKit.Lighting
             int l = (lo >= 0 && lo < d.Length) ? d[lo] : 0;
             int v = (h << 8) | l;
             return v / 65535f;
+        }
+
+        static float Normalize8Or16(int[] d, int coarse, int fine, bool useFine)
+        {
+            if (useFine)
+                return Normalize16(d, coarse, fine);
+
+            return Get8(d, coarse);
         }
 
         static Vector3 GetAxisVector(MovingRotationAxis axis, float angle)

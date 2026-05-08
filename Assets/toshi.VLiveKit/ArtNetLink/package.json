@@ -1,8 +1,8 @@
-﻿{
+{
     "name":  "com.toshi.vlivekit.artnetlink",
     "displayName":  "VLiveKit ArtNetLink",
-    "version":  "0.1.14",
-    "unity":  "2022.3",
+    "version": "0.1.15",
+    "unity": "6000.3",
     "description":  "VLiveKit ArtNetLink package",
     "author":  {
                    "name":  "toshi"
@@ -25,6 +25,6 @@
                     }
                 ],
     "dependencies":  {
-                         "com.unity.render-pipelines.high-definition":  "14.0.8"
+                         "com.unity.render-pipelines.high-definition": "17.3.0"
                      }
 }

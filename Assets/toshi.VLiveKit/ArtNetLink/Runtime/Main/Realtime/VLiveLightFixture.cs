@@ -241,11 +241,7 @@ namespace toshi.VLiveKit.Lighting
         {
             if (light == null) return;
 
-            #if UNITY_2021_2_OR_NEWER
-                light.SetIntensity(_i * maxLumen, LightUnit.Lumen);
-            #else
-                light.intensity = _i * maxLumen;
-            #endif
+            light.SetIntensity(_i * maxLumen);
             light.EnableColorTemperature(false);
             light.SetColor(_color);
 

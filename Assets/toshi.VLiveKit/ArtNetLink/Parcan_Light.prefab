@@ -45,7 +45,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1781.9227
+  m_Intensity: 9503.588
   m_Range: 8
   m_SpotAngle: 60
   m_InnerSpotAngle: 1
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 1500
+  m_Intensity: 8000
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 20
@@ -303,8 +303,8 @@ MonoBehaviour:
   artNetChannels: {fileID: 0}
   receiver: {fileID: 0}
   light: {fileID: 7013659795006475858}
-  targetRenderers: []
-  _RGBColor: _RGBColor
+  targetRenderers:
+  - {fileID: 2425799380025016860}
   _Panpart: {fileID: 0}
   _Tiltpart: {fileID: 0}
   universe: 1
@@ -323,14 +323,18 @@ MonoBehaviour:
   useWhiteChannel: 1
   useZoom: 1
   invertZoom: 1
-  minZoomAngle: 7
-  maxZoomAngle: 45
-  spotInnerRatio: 0.8
+  minZoomAngle: 20
+  maxZoomAngle: 80
+  spotInnerRatio: 0.78
   useGobo: 0
   goboTextures: []
-  maxLumen: 26466.67
-  maxRendererIntensity: 10
+  parLightPreset: 5
+  applyParLightPreset: 1
+  maxLumen: 15000
+  maxRendererIntensity: 1
   colorTemperature: 3400
+  emissiveSurfaceArea: 0.05
+  rendererLumenScale: 0.0002
   panTiltSmoothTime: 0.15
   panSmoothTimeOverride: -1
   tiltSmoothTimeOverride: -1

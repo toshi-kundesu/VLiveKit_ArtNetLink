@@ -4,12 +4,23 @@
 
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.Serialization;
 
 namespace toshi.VLiveKit.Lighting
 {
     public enum MovingRotationAxis
     {
         X, Y, Z
+    }
+
+    public enum ParLightPreset
+    {
+        Custom,
+        MiniAccent12x1W,
+        SmallWash12x3W18x3W,
+        PerformerKey20W,
+        MediumWash18x10W12x12W,
+        LargeStage187WPlus
     }
 
     public class VLiveLightFixture : MonoBehaviour
@@ -32,9 +43,6 @@ namespace toshi.VLiveKit.Lighting
         [Header("[Controll Target Renderer]")]
         // 複数レンダラーを選べるようにする
         [SerializeField] private Renderer[] targetRenderers;
-
-        [Header("[Target Shader Parameters]")]
-        [SerializeField] private string _RGBColor = "_RGBColor";
 
         [Header("[Pan & Tilt Parts]")]
         [SerializeField] private Transform _Panpart;
@@ -90,10 +98,16 @@ namespace toshi.VLiveKit.Lighting
         /* =========================
          * Light Params
          * ========================= */
+        [Header("[PAR Light Preset]")]
+        [SerializeField] private ParLightPreset parLightPreset = ParLightPreset.Custom;
+        [SerializeField] private bool applyParLightPreset = false;
+
         [Header("[Light Parameters]")]
-        [SerializeField] private float maxLumen = 8000f;
-        [SerializeField] private float maxRendererIntensity = 10f;
+        [SerializeField, FormerlySerializedAs("maxIntensity")] private float maxLumen = 8000f;
+        [SerializeField, HideInInspector, FormerlySerializedAs("MaxRendererIntensity")] private float maxRendererIntensity = 1f;
         [SerializeField] private float colorTemperature = 6500f;
+        [SerializeField] private float emissiveSurfaceArea = 0.018f;
+        [SerializeField] private float rendererLumenScale = 0.0002f;
 
         /* =========================
          * Pan / Tilt Params
@@ -136,12 +150,27 @@ namespace toshi.VLiveKit.Lighting
         private Quaternion panAverage = Quaternion.identity;
         private Quaternion tiltAverage = Quaternion.identity;
         private MaterialPropertyBlock mpb;
+        private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
+        private static readonly int ColorId = Shader.PropertyToID("_Color");
+        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+        private static readonly int EmissiveColorId = Shader.PropertyToID("_EmissiveColor");
+        private static readonly int EmissiveColorLdrId = Shader.PropertyToID("_EmissiveColorLDR");
+        private static readonly int EmissiveIntensityId = Shader.PropertyToID("_EmissiveIntensity");
+        private static readonly int EmissiveIntensityUnitId = Shader.PropertyToID("_EmissiveIntensityUnit");
+        private static readonly int UseEmissiveIntensityId = Shader.PropertyToID("_UseEmissiveIntensity");
+
+        private void OnValidate()
+        {
+            ApplyParLightPreset();
+        }
 
         /* =========================
          * Init
          * ========================= */
         private void Start()
         {
+            ApplyParLightPreset();
+
             if (receiver != null)
             {
                 receiver._universeToUse = universe;
@@ -213,7 +242,8 @@ namespace toshi.VLiveKit.Lighting
             #else
                 light.intensity = _i * maxLumen;
             #endif
-            light.SetColor(new Color(_r, _g, _b, _w), colorTemperature);
+            light.EnableColorTemperature(false);
+            light.SetColor(_color);
 
             if (useZoom)
             {
@@ -229,9 +259,70 @@ namespace toshi.VLiveKit.Lighting
             }
         }
 
+        void ApplyParLightPreset()
+        {
+            if (!applyParLightPreset || parLightPreset == ParLightPreset.Custom) return;
+
+            switch (parLightPreset)
+            {
+                case ParLightPreset.MiniAccent12x1W:
+                    maxLumen = 600f;
+                    maxRendererIntensity = 1f;
+                    emissiveSurfaceArea = 0.012f;
+                    rendererLumenScale = 0.0002f;
+                    useZoom = true;
+                    minZoomAngle = 10f;
+                    maxZoomAngle = 25f;
+                    spotInnerRatio = 0.75f;
+                    break;
+                case ParLightPreset.SmallWash12x3W18x3W:
+                    maxLumen = 2500f;
+                    maxRendererIntensity = 1f;
+                    emissiveSurfaceArea = 0.018f;
+                    rendererLumenScale = 0.0002f;
+                    useZoom = true;
+                    minZoomAngle = 25f;
+                    maxZoomAngle = 60f;
+                    spotInnerRatio = 0.80f;
+                    break;
+                case ParLightPreset.PerformerKey20W:
+                    maxLumen = 4000f;
+                    maxRendererIntensity = 1f;
+                    emissiveSurfaceArea = 0.018f;
+                    rendererLumenScale = 0.0002f;
+                    useZoom = true;
+                    minZoomAngle = 20f;
+                    maxZoomAngle = 30f;
+                    spotInnerRatio = 0.85f;
+                    break;
+                case ParLightPreset.MediumWash18x10W12x12W:
+                    maxLumen = 8000f;
+                    maxRendererIntensity = 1f;
+                    emissiveSurfaceArea = 0.028f;
+                    rendererLumenScale = 0.0002f;
+                    useZoom = true;
+                    minZoomAngle = 25f;
+                    maxZoomAngle = 60f;
+                    spotInnerRatio = 0.80f;
+                    break;
+                case ParLightPreset.LargeStage187WPlus:
+                    maxLumen = 15000f;
+                    maxRendererIntensity = 1f;
+                    emissiveSurfaceArea = 0.05f;
+                    rendererLumenScale = 0.0002f;
+                    useZoom = true;
+                    minZoomAngle = 20f;
+                    maxZoomAngle = 80f;
+                    spotInnerRatio = 0.78f;
+                    break;
+            }
+        }
+
         void UpdateColor()
         {
-            _color = new Color(_r + _w, _g + _w, _b + _w, 1f);
+            Color white = Mathf.CorrelatedColorTemperatureToRGB(Mathf.Clamp(colorTemperature, 1000f, 40000f));
+            _color = new Color(_r, _g, _b, 1f) + white * _w;
+            _color.a = 1f;
         }
 
         void UpdateRenderer()
@@ -245,9 +336,29 @@ namespace toshi.VLiveKit.Lighting
                 if (renderer == null) continue;
                 
                 renderer.GetPropertyBlock(mpb);
-                mpb.SetColor(_RGBColor, _color * (_i * maxRendererIntensity));
+                float nits = GetRendererEmissionNits() * _i;
+                Color emissiveColor = _color * nits;
+                emissiveColor.a = nits;
+
+                mpb.SetColor(BaseColorId, _color);
+                mpb.SetColor(ColorId, _color);
+                mpb.SetColor(EmissionColorId, _color);
+                mpb.SetColor(EmissiveColorLdrId, _color);
+                mpb.SetColor(EmissiveColorId, emissiveColor);
+                mpb.SetFloat(EmissiveIntensityId, nits);
+                mpb.SetFloat(EmissiveIntensityUnitId, 0f);
+                mpb.SetFloat(UseEmissiveIntensityId, 1f);
                 renderer.SetPropertyBlock(mpb);
             }
+        }
+
+        float GetRendererEmissionNits()
+        {
+            float area = Mathf.Max(0.0001f, emissiveSurfaceArea);
+            float lumenScale = Mathf.Max(0f, rendererLumenScale * maxRendererIntensity);
+
+            // For a Lambertian emitter, luminous flux = luminance * area * pi.
+            return maxLumen * lumenScale / (area * Mathf.PI);
         }
 
         /* =========================

@@ -10,6 +10,12 @@ using UnityEngine;
 
 namespace toshi.VLiveKit.ArtNetLink.Editor
 {
+    enum ArtNetSendTestOutputMode
+    {
+        LiveDesk,
+        Once
+    }
+
     public sealed class ArtNetSendTestWindow : EditorWindow
     {
         const int UniverseCount = 10;
@@ -17,12 +23,11 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         const int ButtonWidth = 64;
 
         [SerializeField] ArtNetSendTargetMode _targetMode = ArtNetSendTargetMode.Broadcast;
+        [SerializeField] ArtNetSendTestOutputMode _outputMode = ArtNetSendTestOutputMode.LiveDesk;
         [SerializeField] string _unicastAddress = "127.0.0.1";
         [SerializeField] string _broadcastAddress = "255.255.255.255";
         [SerializeField] int _port = ArtNetDmxSender.DefaultPort;
-        [SerializeField] bool _outputEnabled;
-        [SerializeField] bool _continuousSend = true;
-        [SerializeField] bool _sendOnChange = true;
+        [SerializeField] bool _isLiveSending;
         [SerializeField] float _sendRate = 30f;
         [SerializeField] int[] _values;
         [SerializeField] bool[] _universeEnabled;
@@ -41,6 +46,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         void OnEnable()
         {
             EnsureState();
+            _isLiveSending = false;
             _sender = new ArtNetDmxSender();
             EditorApplication.update += OnEditorUpdate;
         }
@@ -48,6 +54,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         void OnDisable()
         {
             EditorApplication.update -= OnEditorUpdate;
+            StopLiveSending("Stopped");
 
             if (_sender != null)
             {
@@ -75,7 +82,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             {
                 EditorGUILayout.LabelField("Destination", EditorStyles.boldLabel);
 
-                _targetMode = (ArtNetSendTargetMode)EditorGUILayout.EnumPopup("Mode", _targetMode);
+                _targetMode = (ArtNetSendTargetMode)EditorGUILayout.EnumPopup("Target Mode", _targetMode);
 
                 if (_targetMode == ArtNetSendTargetMode.Unicast)
                     _unicastAddress = EditorGUILayout.TextField("Unicast Address", _unicastAddress);
@@ -91,19 +98,34 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         {
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
+                EditorGUI.BeginChangeCheck();
+                var outputMode = (ArtNetSendTestOutputMode)EditorGUILayout.EnumPopup("Output Mode", _outputMode);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    StopLiveSending("Stopped");
+                    _outputMode = outputMode;
+                }
+
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    var outputText = _outputEnabled ? "Output ON" : "Output OFF";
-                    var nextOutputEnabled = GUILayout.Toggle(_outputEnabled, outputText, EditorStyles.miniButtonLeft, GUILayout.Width(100f));
-                    if (nextOutputEnabled != _outputEnabled)
+                    if (_outputMode == ArtNetSendTestOutputMode.LiveDesk)
                     {
-                        _outputEnabled = nextOutputEnabled;
-                        _nextSendTime = 0;
-                        if (_outputEnabled) SendAllEnabledUniverses();
+                        if (!_isLiveSending)
+                        {
+                            if (GUILayout.Button("Send Start", EditorStyles.miniButtonLeft, GUILayout.Width(100f)))
+                                StartLiveSending();
+                        }
+                        else
+                        {
+                            if (GUILayout.Button("Send Stop", EditorStyles.miniButtonLeft, GUILayout.Width(100f)))
+                                StopLiveSending("Stopped");
+                        }
                     }
-
-                    if (GUILayout.Button("Send Once", EditorStyles.miniButtonMid, GUILayout.Width(90f)))
-                        SendAllEnabledUniverses();
+                    else
+                    {
+                        if (GUILayout.Button("Send Once", EditorStyles.miniButtonLeft, GUILayout.Width(100f)))
+                            SendAllEnabledUniverses();
+                    }
 
                     if (GUILayout.Button("Blackout", EditorStyles.miniButtonMid, GUILayout.Width(80f)))
                         SetAllFaders(0, true);
@@ -112,9 +134,12 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                         SetAllFaders(255, true);
                 }
 
-                _continuousSend = EditorGUILayout.Toggle("Continuous Send", _continuousSend);
-                _sendOnChange = EditorGUILayout.Toggle("Send On Change", _sendOnChange);
-                _sendRate = EditorGUILayout.Slider("Rate (fps)", _sendRate, 1f, 60f);
+                using (new EditorGUI.DisabledScope(_outputMode != ArtNetSendTestOutputMode.LiveDesk))
+                {
+                    _sendRate = EditorGUILayout.Slider("Rate (fps)", _sendRate, 1f, 60f);
+                }
+
+                EditorGUILayout.LabelField("State", GetOutputStateLabel(), EditorStyles.miniLabel);
             }
         }
 
@@ -153,7 +178,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                             if (EditorGUI.EndChangeCheck())
                             {
                                 _values[valueIndex] = value;
-                                if (_outputEnabled && _sendOnChange) SendUniverse(universe);
+                                if (_isLiveSending) SendUniverse(universe);
                             }
                         }
                     }
@@ -165,13 +190,32 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 
         void OnEditorUpdate()
         {
-            if (!_outputEnabled || !_continuousSend) return;
+            if (_outputMode != ArtNetSendTestOutputMode.LiveDesk || !_isLiveSending) return;
 
             var now = EditorApplication.timeSinceStartup;
             if (now < _nextSendTime) return;
 
             SendAllEnabledUniverses();
             _nextSendTime = now + 1.0 / Mathf.Clamp(_sendRate, 1f, 60f);
+        }
+
+        void StartLiveSending()
+        {
+            _outputMode = ArtNetSendTestOutputMode.LiveDesk;
+            _isLiveSending = true;
+            _nextSendTime = 0;
+            SendAllEnabledUniverses();
+            _status = "Live Desk started: " + CurrentAddress + ":" + _port;
+        }
+
+        void StopLiveSending(string status)
+        {
+            if (!_isLiveSending) return;
+
+            _isLiveSending = false;
+            _nextSendTime = 0;
+            if (!string.IsNullOrEmpty(status))
+                _status = status;
         }
 
         void SendAllEnabledUniverses()
@@ -251,6 +295,14 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         int GetValueIndex(int universe, int fader)
         {
             return universe * FaderCount + fader;
+        }
+
+        string GetOutputStateLabel()
+        {
+            if (_outputMode == ArtNetSendTestOutputMode.Once)
+                return "Once";
+
+            return _isLiveSending ? "Live Desk sending" : "Live Desk stopped";
         }
 
         string CurrentAddress

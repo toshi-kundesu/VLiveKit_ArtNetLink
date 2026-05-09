@@ -133,7 +133,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             serializedObject.Update();
 
             EditorGUILayout.LabelField("VLive Light Fixture", EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox("Patch values are Art-Net 0-based Universe and DMX 1-based Start Address. For basic test sending, use toshi/VLiveKit/Lighting/SendTestArtNet.", MessageType.None);
+            EditorGUILayout.HelpBox("Patch values are Art-Net 0-based Universe and DMX 1-based Start Address. For basic light output, use toshi/VLiveKit/Lighting/SimpleLightConsole.", MessageType.None);
 
             DrawSourceAndTargets();
             DrawPatch();

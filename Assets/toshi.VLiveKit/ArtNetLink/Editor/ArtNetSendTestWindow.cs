@@ -70,16 +70,15 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         double _nextSendTime;
         string _status = "Idle";
 
-        [MenuItem("toshi/VLiveKit/Lighting/ArtNet Send Test")]
+        [MenuItem("toshi/VLiveKit/Lighting/SimpleLightConsole")]
         public static void Open()
         {
-            GetWindow<ArtNetSendTestWindow>("ArtNet Send Test");
+            GetWindow<ArtNetSendTestWindow>("SimpleLightConsole");
         }
 
-        [MenuItem("toshi/VLiveKit/Lighting/SendTestArtNet")]
-        public static void OpenSendTestArtNet()
+        public static void OpenSimpleLightConsole()
         {
-            GetWindow<ArtNetSendTestWindow>("SendTestArtNet");
+            Open();
         }
 
         void OnEnable()
@@ -217,18 +216,18 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
 
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    _showTestSignalControls = EditorGUILayout.Foldout(_showTestSignalControls, "TEST SIGNAL ONLY - SendTestArtNet", true, titleStyle);
+                    _showTestSignalControls = EditorGUILayout.Foldout(_showTestSignalControls, "SimpleLightConsole", true, titleStyle);
                     GUILayout.FlexibleSpace();
                     EditorGUILayout.LabelField(_isTestSignalSending ? "RUNNING" : "OFF", EditorStyles.miniLabel, GUILayout.Width(58f));
                 }
 
                 if (!_showTestSignalControls)
                 {
-                    EditorGUILayout.HelpBox("Test signal controls are hidden by default. Expand only when you want SendTestArtNet to drive the faders automatically.", MessageType.None);
+                    EditorGUILayout.HelpBox("SimpleLightConsole controls are hidden by default. Expand when you want the console to drive the faders automatically.", MessageType.None);
                     return;
                 }
 
-                EditorGUILayout.HelpBox("This is a temporary test signal generator. It only drives the faders below and sends those fader values. Confirm the actual receiving universe with ArtNet Monitor before debugging fixtures.", MessageType.Warning);
+                EditorGUILayout.HelpBox("SimpleLightConsole drives the faders below and sends those fader values. Confirm the receiving universe with ArtNet Monitor before debugging fixtures.", MessageType.None);
                 EditorGUILayout.LabelField("Channel Map", "1: Pan, 2: Tilt, 3: Dimmer, 4: R, 5: G, 6: B", EditorStyles.miniLabel);
 
                 _testUniverse = Mathf.Clamp(EditorGUILayout.IntField("Universe (0-based)", _testUniverse), 0, UniverseCount - 1);
@@ -246,12 +245,12 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 {
                     if (!_isTestSignalSending)
                     {
-                        if (GUILayout.Button("SendTestArtNet Start", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
+                        if (GUILayout.Button("Start Console", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
                             StartTestSignal();
                     }
                     else
                     {
-                        if (GUILayout.Button("SendTestArtNet Stop", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
+                        if (GUILayout.Button("Stop Console", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
                             StopTestSignal("Test signal stopped");
                     }
 
@@ -406,7 +405,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             _nextSendTime = 0;
             ApplyTestSignalToFaders();
             SendUniverse(_testUniverse);
-            _status = "TEST SIGNAL SendTestArtNet started: universe " + _testUniverse + " to " + CurrentAddress + ":" + _port;
+            _status = "SimpleLightConsole started: universe " + _testUniverse + " to " + CurrentAddress + ":" + _port;
         }
 
         void StopTestSignal(string status)
@@ -535,7 +534,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 return "Once";
 
             if (_isTestSignalSending)
-                return "TEST SIGNAL SendTestArtNet sending";
+                return "SimpleLightConsole sending";
 
             return _isLiveSending ? "Live Desk sending" : "Live Desk stopped";
         }

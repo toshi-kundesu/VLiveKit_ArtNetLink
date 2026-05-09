@@ -85,6 +85,14 @@ Play Mode 中に灯体や fixture の動作確認をしながら、以下を確�
 
 - HDRP 14.0.8
 
+## SimpleLightConsole
+
+Open the lightweight Art-Net sender from:
+
+`toshi > VLiveKit > Lighting > SimpleLightConsole`
+
+Use it for quick fixture checks and simple channel output while setting up Art-Net lighting. Older duplicated test-signal menu entries were consolidated into this single window name.
+
 ## License
 
 この package 独自のコードと asset は repository の `LICENSE` に従います。third-party asset を含む場合は、それぞれの license / README を確認してください。

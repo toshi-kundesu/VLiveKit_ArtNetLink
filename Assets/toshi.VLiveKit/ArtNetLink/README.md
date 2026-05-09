@@ -5,7 +5,7 @@ Art-Net / DMX の受信と照明制御を VLiveKit から扱うための Unity p
 ## Package
 
 - Package name: `com.toshi.vlivekit.artnetlink`
-- Version: `0.1.16`
+- Version: `0.1.17`
 - Unity: 2022.3
 - Repository: https://github.com/toshi-kundesu/VLiveKit_ArtNetLink
 - Package root: `Assets/toshi.VLiveKit/ArtNetLink`
@@ -24,7 +24,7 @@ Unity の `Packages/manifest.json` の `dependencies` に追加します。
 ```json
 {
   "dependencies": {
-    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.16"
+    "com.toshi.vlivekit.artnetlink": "https://github.com/toshi-kundesu/VLiveKit_ArtNetLink.git?path=/Assets/toshi.VLiveKit/ArtNetLink#v0.1.17"
   }
 }
 ```
@@ -92,6 +92,10 @@ Open the lightweight Art-Net sender from:
 `toshi > VLiveKit > Lighting > SimpleLightConsole`
 
 Use it for quick fixture checks and simple channel output while setting up Art-Net lighting. Older duplicated test-signal menu entries were consolidated into this single window name.
+
+## Unity Version Compatibility
+
+Art-Net light helpers use Unity/HDRP version gates for APIs that changed around Unity 2023.2, 2023.3, and 6000.3. Newer editors use the current `Light` and `LightUnitUtils` APIs, while older editors keep the HDRP fallback calls.
 
 ## License
 

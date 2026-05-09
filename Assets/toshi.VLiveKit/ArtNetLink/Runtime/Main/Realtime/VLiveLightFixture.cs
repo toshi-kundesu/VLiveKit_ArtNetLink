@@ -3,6 +3,7 @@
 // last update: 2024/11/26
 
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Serialization;
 
@@ -38,7 +39,7 @@ namespace toshi.VLiveKit.Lighting
         [SerializeField] public VLiveArtNetReceiver receiver;
 
         [Header("[Controll Target Light]")]
-        [SerializeField] private HDAdditionalLightData light;
+        [SerializeField] private new HDAdditionalLightData light;
 
         [Header("[Controll Target Renderer]")]
         // 複数レンダラーを選べるようにする
@@ -241,7 +242,7 @@ namespace toshi.VLiveKit.Lighting
         {
             if (light == null) return;
 
-            light.SetIntensity(_i * maxLumen);
+            SetLightIntensity(light, _i * maxLumen);
             light.EnableColorTemperature(false);
             light.SetColor(_color);
 
@@ -255,8 +256,37 @@ namespace toshi.VLiveKit.Lighting
 
                 float innerSpotPercent = Mathf.Clamp(spotInnerRatio, 0.01f, 0.99f) * 100f;
 
-                light.SetSpotAngle(outerAngle, innerSpotPercent);
+                SetSpotAngles(light, outerAngle, innerSpotPercent);
             }
+        }
+
+        private static void SetLightIntensity(HDAdditionalLightData hdLight, float intensity)
+        {
+#if UNITY_2023_3_OR_NEWER
+            Light unityLight = hdLight.GetComponent<Light>();
+            if (unityLight == null) return;
+
+            unityLight.intensity = LightUnitUtils.ConvertIntensity(
+                unityLight,
+                intensity,
+                unityLight.lightUnit,
+                LightUnitUtils.GetNativeLightUnit(unityLight.type));
+#else
+            hdLight.SetIntensity(intensity);
+#endif
+        }
+
+        private static void SetSpotAngles(HDAdditionalLightData hdLight, float outerAngle, float innerSpotPercent)
+        {
+#if UNITY_6000_3_OR_NEWER
+            Light unityLight = hdLight.GetComponent<Light>();
+            if (unityLight == null) return;
+
+            unityLight.spotAngle = outerAngle;
+            unityLight.innerSpotAngle = innerSpotPercent * outerAngle / 100f;
+#else
+            hdLight.SetSpotAngle(outerAngle, innerSpotPercent);
+#endif
         }
 
         void ApplyParLightPreset()

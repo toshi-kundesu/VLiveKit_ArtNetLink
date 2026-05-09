@@ -314,13 +314,26 @@ namespace toshi.VLiveKit.Lighting
 
             if (forceRectangleAreaLight)
             {
+#if UNITY_2023_2_OR_NEWER
+                targetLight.type = LightType.Rectangle;
+#else
                 hdLight.SetLightTypeAndShape(HDLightTypeAndShape.RectangleArea);
+#endif
             }
 
+#if UNITY_6000_3_OR_NEWER
+            if (syncRectangleAreaSize && targetLight.type == LightType.Rectangle)
+            {
+                targetLight.areaSize = sourceSizeMeters;
+            }
+#else
+#pragma warning disable CS0618
             if (syncRectangleAreaSize && hdLight.type == HDLightType.Area && hdLight.areaLightShape == AreaLightShape.Rectangle)
             {
                 hdLight.SetAreaLightSize(sourceSizeMeters);
             }
+#pragma warning restore CS0618
+#endif
 
             if (syncLightColor)
             {
@@ -408,7 +421,7 @@ namespace toshi.VLiveKit.Lighting
                     break;
             }
 
-            hdLight.SetIntensity(intensity, unit);
+            SetLightIntensity(hdLight, intensity, unit);
         }
 
         private void WarnUnsupportedUnit(HDAdditionalLightData hdLight, LightUnit unit)
@@ -420,7 +433,7 @@ namespace toshi.VLiveKit.Lighting
 
             warnedUnsupportedUnit = true;
             Debug.LogWarning(
-                $"{nameof(HDRPEmissionLightSyncTester)}: {hdLight.type} light does not support {unit}. " +
+                $"{nameof(HDRPEmissionLightSyncTester)}: {GetLightTypeName(hdLight)} light does not support {unit}. " +
                 "Use an HDRP Rectangle Area Light for strict Nits sync, or use Lumen sync for Point/Spot lights.",
                 this
             );
@@ -433,6 +446,15 @@ namespace toshi.VLiveKit.Lighting
                 return false;
             }
 
+            Light lightComponent = GetLightComponent(hdLight);
+            if (lightComponent == null)
+            {
+                return false;
+            }
+
+#if UNITY_2023_3_OR_NEWER
+            return LightUnitUtils.IsLightUnitSupported(lightComponent.type, unit);
+#else
             LightUnit[] supportedUnits = hdLight.GetSupportedLightUnits();
             for (int i = 0; i < supportedUnits.Length; i++)
             {
@@ -443,6 +465,47 @@ namespace toshi.VLiveKit.Lighting
             }
 
             return false;
+#endif
+        }
+
+        private static void SetLightIntensity(HDAdditionalLightData hdLight, float intensity, LightUnit unit)
+        {
+#if UNITY_2023_3_OR_NEWER
+            Light lightComponent = GetLightComponent(hdLight);
+            if (lightComponent == null)
+            {
+                return;
+            }
+
+            lightComponent.intensity = LightUnitUtils.ConvertIntensity(
+                lightComponent,
+                intensity,
+                unit,
+                LightUnitUtils.GetNativeLightUnit(lightComponent.type));
+            lightComponent.lightUnit = unit;
+#else
+            hdLight.SetIntensity(intensity, unit);
+#endif
+        }
+
+        private static string GetLightTypeName(HDAdditionalLightData hdLight)
+        {
+            Light lightComponent = GetLightComponent(hdLight);
+            if (lightComponent != null)
+            {
+                return lightComponent.type.ToString();
+            }
+
+#if UNITY_2023_2_OR_NEWER
+            return "Unknown";
+#else
+            return hdLight.type.ToString();
+#endif
+        }
+
+        private static Light GetLightComponent(HDAdditionalLightData hdLight)
+        {
+            return hdLight != null ? hdLight.GetComponent<Light>() : null;
         }
 
         private float GetHDRPEmissionIntensityUnitValue()

@@ -85,6 +85,13 @@ Play Mode 中に灯体や fixture の動作確認をしながら、以下を確�
 
 - HDRP 14.0.8
 
+## Samples
+
+`ArtNetLink Simple Test` is available from the Unity Package Manager Samples
+tab. Import it to open `ArtNetLink_SimpleTest.unity`, a simple Art-Net receiver
+and moving light test scene for checking DMX output with `SimpleLightConsole`
+and `ArtNet Monitor`.
+
 ## SimpleLightConsole
 
 Open the lightweight Art-Net sender from:
@@ -92,6 +99,23 @@ Open the lightweight Art-Net sender from:
 `toshi > VLiveKit > Lighting > SimpleLightConsole`
 
 Use it for quick fixture checks and simple channel output while setting up Art-Net lighting. Older duplicated test-signal menu entries were consolidated into this single window name.
+
+The top status banner shows whether the window is `SENDING LIVE DESK`,
+`SENDING TEST SIGNAL`, `READY TO SEND ONCE`, or `STOPPED`, including the target
+endpoint and send rate. The automatic fixture pattern is inside the `Test Signal`
+section of the same window.
+
+## SimpleDimmerFixture
+
+Add `SimpleDimmerFixture` to a GameObject when you only need a one-channel
+Art-Net dimmer test. The component automatically keeps a `VLiveArtNetReceiver`
+on the same GameObject and, by default, clears the receiver connection so it
+listens on `127.0.0.1:6454`.
+
+Set `Universe` and `Dimmer Address` on `SimpleDimmerFixture`. The DMX channel is
+1-based, so address `1` reads channel 1 from the selected Art-Net universe. Assign
+a `Light`, `HDAdditionalLightData`, or target renderers to drive light intensity
+and emissive preview surfaces.
 
 ## Unity Version Compatibility
 

@@ -29,6 +29,25 @@ namespace toshi.VLiveKit.Lighting
         public string CurrentHost => string.IsNullOrEmpty(_currentHost) ? (_connection?.host ?? "127.0.0.1") : _currentHost;
         public int CurrentPort => _currentPort == 0 ? (_connection?.port ?? 6454) : _currentPort;
 
+        public void UseLocalhost(int universeToUse = 0)
+        {
+            var shouldRestart = isActiveAndEnabled && _currentPort != 0;
+            if (shouldRestart)
+            {
+                UnregisterCallback();
+            }
+
+            _connection = null;
+            _universeToUse = Mathf.Clamp(universeToUse, 0, 64);
+            _currentHost = null;
+            _currentPort = 0;
+
+            if (shouldRestart)
+            {
+                RegisterCallback();
+            }
+        }
+
         [Range(0, 64)]
         [SerializeField] public int _universeToUse = 0;
         private Dictionary<int, Queue<byte[]>> _universeQueues = new Dictionary<int, Queue<byte[]>>();

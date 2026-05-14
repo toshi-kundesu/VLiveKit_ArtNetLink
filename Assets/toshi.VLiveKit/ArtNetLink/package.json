@@ -1,7 +1,7 @@
 {
     "name":  "com.toshi.vlivekit.artnetlink",
     "displayName":  "VLiveKit ArtNetLink",
-    "version": "0.1.17",
+    "version": "0.1.18",
     "unity": "6000.3",
     "description":  "VLiveKit ArtNetLink package",
     "author":  {

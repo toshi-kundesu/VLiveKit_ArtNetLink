@@ -4,8 +4,6 @@
 
 using System.IO;
 using UnityEngine;
-using UnityEditor;
-using toshi.VLiveKit.Lighting;
 
 namespace toshi.VLiveKit.Lighting
 {
@@ -51,7 +49,7 @@ namespace toshi.VLiveKit.Lighting
                 }
             }
             // 更新
-            AssetDatabase.Refresh();
+            ArtNetLinkEditorBridge.RefreshAssets();
 
             Debug.Log($"オブジェクトの位置情報が {filePath} に保存されました。");
         }

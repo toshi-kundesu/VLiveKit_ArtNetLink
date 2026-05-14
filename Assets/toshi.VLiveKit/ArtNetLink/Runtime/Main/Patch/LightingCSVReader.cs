@@ -13,10 +13,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace toshi.VLiveKit.Lighting
 {
     public class LightingCSVReader : MonoBehaviour
@@ -121,9 +117,7 @@ namespace toshi.VLiveKit.Lighting
                 if (universeParent == null)
                 {
                     GameObject universeObject = new GameObject(universeName);
-#if UNITY_EDITOR
-                    if (!Application.isPlaying) Undo.RegisterCreatedObjectUndo(universeObject, "Create Universe Parent");
-#endif
+                    ArtNetLinkEditorBridge.RegisterCreatedObjectUndo(universeObject, "Create Universe Parent");
                     if (parentObject != null) universeObject.transform.SetParent(parentObject, false);
                     universeObject.transform.localPosition = Vector3.zero;
                     universeParent = universeObject.transform;
@@ -212,14 +206,7 @@ namespace toshi.VLiveKit.Lighting
             var receiver = universeObj.GetComponent<VLiveArtNetReceiver>();
             if (receiver == null && addReceiverToUniverseParentIfMissing)
             {
-#if UNITY_EDITOR
-                if (!Application.isPlaying)
-                    receiver = Undo.AddComponent<VLiveArtNetReceiver>(universeObj);
-                else
-                    receiver = universeObj.AddComponent<VLiveArtNetReceiver>();
-#else
-                receiver = universeObj.AddComponent<VLiveArtNetReceiver>();
-#endif
+                receiver = ArtNetLinkEditorBridge.AddComponent<VLiveArtNetReceiver>(universeObj);
             }
 
             if (receiver != null)
@@ -237,9 +224,7 @@ namespace toshi.VLiveKit.Lighting
             // publicなら直接でも良いけど、非publicの可能性があるので反射で安全に
             if (_artnetUniverseField != null)
             {
-#if UNITY_EDITOR
-                if (!Application.isPlaying) Undo.RecordObject(receiver, "Set ArtNet Receiver Universe");
-#endif
+                ArtNetLinkEditorBridge.RecordObject(receiver, "Set ArtNet Receiver Universe");
                 try { _artnetUniverseField.SetValue(receiver, universe); } catch { }
             }
             else
@@ -376,7 +361,7 @@ namespace toshi.VLiveKit.Lighting
                             continue;
                         }
 
-                        // ★Prefabのまま置く（Editor非再生では PrefabUtility.InstantiatePrefab）
+                        // ★Prefabのまま置く（Editor非再生では prefab link を維持）
                         GameObject instance = SpawnPrefabInstance(selectedPrefab, universeParent);
                         if (instance == null)
                         {
@@ -385,9 +370,7 @@ namespace toshi.VLiveKit.Lighting
                         }
 
                         // Transform反映（ローカル）
-#if UNITY_EDITOR
-                        if (!Application.isPlaying) Undo.RecordObject(instance.transform, "Apply Transform From CSV");
-#endif
+                        ArtNetLinkEditorBridge.RecordObject(instance.transform, "Apply Transform From CSV");
                         instance.transform.localPosition = pos;
                         instance.transform.localRotation = Quaternion.Euler(rot);
                         instance.transform.localScale = scl;
@@ -411,9 +394,7 @@ namespace toshi.VLiveKit.Lighting
                         }
 
                         // 名前
-#if UNITY_EDITOR
-                        if (!Application.isPlaying) Undo.RecordObject(instance, "Rename Spawned Prefab");
-#endif
+                        ArtNetLinkEditorBridge.RecordObject(instance, "Rename Spawned Prefab");
                         instance.name = selectedPrefab.name + "_" + headNumber;
                     }
                     catch (Exception e)
@@ -432,20 +413,20 @@ namespace toshi.VLiveKit.Lighting
         {
             if (prefab == null) return null;
 
-#if UNITY_EDITOR
             if (!Application.isPlaying)
             {
-                GameObject instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-                if (instance == null) return null;
+                GameObject instance = ArtNetLinkEditorBridge.InstantiatePrefab(prefab);
+                if (instance != null)
+                {
+                    ArtNetLinkEditorBridge.RegisterCreatedObjectUndo(instance, "Spawn Light From CSV");
 
-                Undo.RegisterCreatedObjectUndo(instance, "Spawn Light From CSV");
+                    if (parent != null)
+                        instance.transform.SetParent(parent, false);
 
-                if (parent != null)
-                    instance.transform.SetParent(parent, false);
-
-                return instance;
+                    return instance;
+                }
             }
-#endif
+
             return Instantiate(prefab, parent);
         }
 
@@ -470,9 +451,7 @@ namespace toshi.VLiveKit.Lighting
                 return;
             }
 
-#if UNITY_EDITOR
-            if (!Application.isPlaying) Undo.RecordObject(fixture, "Assign Universe Parent Receiver");
-#endif
+            ArtNetLinkEditorBridge.RecordObject(fixture, "Assign Universe Parent Receiver");
             fixture.receiver = parentReceiver;
 
             // 念のため receiver側のuniverseも合わせる
@@ -494,14 +473,7 @@ namespace toshi.VLiveKit.Lighting
             {
                 if (typeof(MonoBehaviour).IsAssignableFrom(_assignComponentType))
                 {
-#if UNITY_EDITOR
-                    if (!Application.isPlaying)
-                        comp = Undo.AddComponent(instance, _assignComponentType);
-                    else
-                        comp = instance.AddComponent(_assignComponentType);
-#else
-                    comp = instance.AddComponent(_assignComponentType);
-#endif
+                    comp = ArtNetLinkEditorBridge.AddComponent(instance, _assignComponentType);
                 }
                 else
                 {
@@ -533,9 +505,7 @@ namespace toshi.VLiveKit.Lighting
                 return;
             }
 
-#if UNITY_EDITOR
-            if (!Application.isPlaying) Undo.RecordObject(receiver, "Apply REC Settings");
-#endif
+            ArtNetLinkEditorBridge.RecordObject(receiver, "Apply REC Settings");
 
             // Fixture側のネットワーク受信は使わない
             receiver.receiver = null;
@@ -544,12 +514,7 @@ namespace toshi.VLiveKit.Lighting
             var artnet = instance.GetComponent<VLiveArtNetReceiver>();
             if (artnet != null)
             {
-#if UNITY_EDITOR
-                if (!Application.isPlaying) Undo.DestroyObjectImmediate(artnet);
-                else Destroy(artnet);
-#else
-                Destroy(artnet);
-#endif
+                ArtNetLinkEditorBridge.DestroyObject(artnet);
             }
 
             receiver.useArtNetREC = true;
@@ -570,9 +535,7 @@ namespace toshi.VLiveKit.Lighting
         {
             try
             {
-#if UNITY_EDITOR
-                if (!Application.isPlaying) Undo.RecordObject(comp, $"Set {label}");
-#endif
+                ArtNetLinkEditorBridge.RecordObject(comp, $"Set {label}");
                 object boxed = ConvertToMemberType(value, fi.FieldType);
                 fi.SetValue(comp, boxed);
             }
@@ -586,9 +549,7 @@ namespace toshi.VLiveKit.Lighting
         {
             try
             {
-#if UNITY_EDITOR
-                if (!Application.isPlaying) Undo.RecordObject(comp, $"Set {label}");
-#endif
+                ArtNetLinkEditorBridge.RecordObject(comp, $"Set {label}");
                 object boxed = ConvertToMemberType(value, pi.PropertyType);
                 pi.SetValue(comp, boxed);
             }
@@ -721,12 +682,16 @@ namespace toshi.VLiveKit.Lighting
 
         private void SaveCSVAsTextAsset(string csvData, string fileName)
         {
+            if (!ArtNetLinkEditorBridge.CanRefreshAssets)
+            {
+                Debug.Log("CSVデータをロードしました。Editorのasset pipelineがないためTextAsset保存はスキップされました。");
+                return;
+            }
+
             string path = Path.Combine(Application.dataPath, $"{fileName}.txt");
             File.WriteAllText(path, csvData);
             Debug.Log($"CSVデータが {path} に保存されました。");
-#if UNITY_EDITOR
-            UnityEditor.AssetDatabase.Refresh();
-#endif
+            ArtNetLinkEditorBridge.RefreshAssets();
         }
 
         // Type解決（Unity用）

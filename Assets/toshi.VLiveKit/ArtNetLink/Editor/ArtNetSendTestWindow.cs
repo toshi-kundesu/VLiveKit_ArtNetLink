@@ -41,6 +41,11 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         const int FaderCount = ArtNetDmxSender.ChannelCount;
         const int ButtonWidth = 64;
         const int TestFixtureFootprint = 6;
+        const float TransportButtonHeight = 28f;
+        static readonly Color SendingBlue = new Color(0.02f, 0.42f, 0.82f);
+        static readonly Color TestSignalBlue = new Color(0.16f, 0.34f, 0.82f);
+        static readonly Color StoppedGray = new Color(0.28f, 0.28f, 0.28f);
+        static readonly Color OnceGray = new Color(0.34f, 0.34f, 0.34f);
 
         [SerializeField] ArtNetSendTargetMode _targetMode = ArtNetSendTargetMode.Broadcast;
         [SerializeField] ArtNetSendTestOutputMode _outputMode = ArtNetSendTestOutputMode.LiveDesk;
@@ -56,7 +61,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         [SerializeField] bool[] _universeFoldouts;
         [SerializeField] bool _showDestination = true;
         [SerializeField] bool _showTransport = true;
-        [SerializeField] bool _showTestSignalControls;
+        [SerializeField] bool _showTestSignalControls = true;
         [SerializeField] int _testUniverse = 0;
         [SerializeField] int _testStartAddress = 1;
         [SerializeField] int _testFixtureCount = 1;
@@ -105,6 +110,8 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         {
             EnsureState();
 
+            DrawOutputBanner();
+            EditorGUILayout.Space(4f);
             DrawDestination();
             EditorGUILayout.Space(6f);
             DrawTransport();
@@ -114,6 +121,28 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             DrawFaders();
             EditorGUILayout.Space(4f);
             EditorGUILayout.LabelField(_status, EditorStyles.miniLabel);
+        }
+
+        void DrawOutputBanner()
+        {
+            var rect = GUILayoutUtility.GetRect(1f, 42f, GUILayout.ExpandWidth(true));
+            EditorGUI.DrawRect(rect, GetPrimaryStateColor());
+
+            var titleStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = 13,
+                normal = { textColor = Color.white }
+            };
+
+            var detailStyle = new GUIStyle(EditorStyles.miniLabel)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                normal = { textColor = new Color(1f, 1f, 1f, 0.82f) }
+            };
+
+            GUI.Label(new Rect(rect.x + 10f, rect.y + 5f, rect.width - 20f, 18f), GetPrimaryStateLabel(), titleStyle);
+            GUI.Label(new Rect(rect.x + 10f, rect.y + 23f, rect.width - 20f, 15f), GetPrimaryStateDetail(), detailStyle);
         }
 
         void DrawDestination()
@@ -146,7 +175,12 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 _showTransport = EditorGUILayout.Foldout(_showTransport, "Transport", true, EditorStyles.foldoutHeader);
                 if (!_showTransport)
                 {
-                    EditorGUILayout.LabelField("State", GetOutputStateLabel(), EditorStyles.miniLabel);
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.LabelField("State", GetOutputStateLabel(), EditorStyles.miniLabel);
+                        GUILayout.FlexibleSpace();
+                        DrawStatePill(GetCompactStateLabel(), GetPrimaryStateColor(), GUILayout.Width(108f), GUILayout.Height(18f));
+                    }
                     return;
                 }
 
@@ -163,14 +197,14 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 {
                     if (_outputMode == ArtNetSendTestOutputMode.LiveDesk)
                     {
-                        if (!_isLiveSending)
+                        if (!_isLiveSending && !_isTestSignalSending)
                         {
-                            if (GUILayout.Button("Send Start", EditorStyles.miniButtonLeft, GUILayout.Width(100f)))
+                            if (GUILayout.Button("Start Sending", EditorStyles.miniButtonLeft, GUILayout.Width(132f), GUILayout.Height(TransportButtonHeight)))
                                 StartLiveSending();
                         }
                         else
                         {
-                            if (GUILayout.Button("Send Stop", EditorStyles.miniButtonLeft, GUILayout.Width(100f)))
+                            if (GUILayout.Button("Stop Sending", EditorStyles.miniButtonLeft, GUILayout.Width(132f), GUILayout.Height(TransportButtonHeight)))
                             {
                                 StopLiveSending("Stopped");
                                 StopTestSignal("Stopped");
@@ -179,21 +213,24 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                     }
                     else
                     {
-                        if (GUILayout.Button("Send Once", EditorStyles.miniButtonLeft, GUILayout.Width(100f)))
+                        if (GUILayout.Button("Send Once", EditorStyles.miniButtonLeft, GUILayout.Width(132f), GUILayout.Height(TransportButtonHeight)))
                             SendAllEnabledUniverses();
                     }
 
-                    if (GUILayout.Button("Blackout", EditorStyles.miniButtonMid, GUILayout.Width(80f)))
+                    if (GUILayout.Button("Blackout", EditorStyles.miniButtonMid, GUILayout.Width(82f), GUILayout.Height(TransportButtonHeight)))
                     {
                         StopTestSignal("Test signal stopped");
                         SetAllFaders(0, true);
                     }
 
-                    if (GUILayout.Button("Full", EditorStyles.miniButtonRight, GUILayout.Width(64f)))
+                    if (GUILayout.Button("Full", EditorStyles.miniButtonRight, GUILayout.Width(70f), GUILayout.Height(TransportButtonHeight)))
                     {
                         StopTestSignal("Test signal stopped");
                         SetAllFaders(255, true);
                     }
+
+                    GUILayout.FlexibleSpace();
+                    DrawStatePill(GetCompactStateLabel(), GetPrimaryStateColor(), GUILayout.Width(118f), GUILayout.Height(TransportButtonHeight));
                 }
 
                 using (new EditorGUI.DisabledScope(_outputMode != ArtNetSendTestOutputMode.LiveDesk))
@@ -209,25 +246,20 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
         {
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                var titleStyle = new GUIStyle(EditorStyles.boldLabel)
-                {
-                    normal = { textColor = new Color(1f, 0.72f, 0.18f) }
-                };
-
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    _showTestSignalControls = EditorGUILayout.Foldout(_showTestSignalControls, "SimpleLightConsole", true, titleStyle);
+                    _showTestSignalControls = EditorGUILayout.Foldout(_showTestSignalControls, "Test Signal", true, EditorStyles.foldoutHeader);
                     GUILayout.FlexibleSpace();
-                    EditorGUILayout.LabelField(_isTestSignalSending ? "RUNNING" : "OFF", EditorStyles.miniLabel, GUILayout.Width(58f));
+                    DrawStatePill(_isTestSignalSending ? "SENDING" : "STOPPED", _isTestSignalSending ? TestSignalBlue : StoppedGray, GUILayout.Width(86f), GUILayout.Height(18f));
                 }
 
                 if (!_showTestSignalControls)
                 {
-                    EditorGUILayout.HelpBox("SimpleLightConsole controls are hidden by default. Expand when you want the console to drive the faders automatically.", MessageType.None);
+                    EditorGUILayout.LabelField("Automatic pan, tilt, dimmer, and color pattern for fixture checks.", EditorStyles.miniLabel);
                     return;
                 }
 
-                EditorGUILayout.HelpBox("SimpleLightConsole drives the faders below and sends those fader values. Confirm the receiving universe with ArtNet Monitor before debugging fixtures.", MessageType.None);
+                EditorGUILayout.LabelField("SimpleLightConsole can drive the faders below with an automatic test pattern.", EditorStyles.miniLabel);
                 EditorGUILayout.LabelField("Channel Map", "1: Pan, 2: Tilt, 3: Dimmer, 4: R, 5: G, 6: B", EditorStyles.miniLabel);
 
                 _testUniverse = Mathf.Clamp(EditorGUILayout.IntField("Universe (0-based)", _testUniverse), 0, UniverseCount - 1);
@@ -245,17 +277,20 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 {
                     if (!_isTestSignalSending)
                     {
-                        if (GUILayout.Button("Start Console", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
+                        if (GUILayout.Button("Start Test Signal", EditorStyles.miniButtonLeft, GUILayout.Width(150f), GUILayout.Height(TransportButtonHeight)))
                             StartTestSignal();
                     }
                     else
                     {
-                        if (GUILayout.Button("Stop Console", EditorStyles.miniButtonLeft, GUILayout.Width(150f)))
+                        if (GUILayout.Button("Stop Test Signal", EditorStyles.miniButtonLeft, GUILayout.Width(150f), GUILayout.Height(TransportButtonHeight)))
                             StopTestSignal("Test signal stopped");
                     }
 
-                    if (GUILayout.Button("Blackout", EditorStyles.miniButtonRight, GUILayout.Width(80f)))
+                    if (GUILayout.Button("Blackout", EditorStyles.miniButtonRight, GUILayout.Width(86f), GUILayout.Height(TransportButtonHeight)))
                         SendBlackoutTestUniverse();
+
+                    GUILayout.FlexibleSpace();
+                    DrawStatePill(_isTestSignalSending ? "SENDING" : "STOPPED", _isTestSignalSending ? TestSignalBlue : StoppedGray, GUILayout.Width(92f), GUILayout.Height(TransportButtonHeight));
                 }
             }
         }
@@ -405,7 +440,7 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
             _nextSendTime = 0;
             ApplyTestSignalToFaders();
             SendUniverse(_testUniverse);
-            _status = "SimpleLightConsole started: universe " + _testUniverse + " to " + CurrentAddress + ":" + _port;
+            _status = "Test signal started: universe " + _testUniverse + " to " + CurrentAddress + ":" + _port;
         }
 
         void StopTestSignal(string status)
@@ -534,9 +569,94 @@ namespace toshi.VLiveKit.ArtNetLink.Editor
                 return "Once";
 
             if (_isTestSignalSending)
-                return "SimpleLightConsole sending";
+                return "Test Signal sending";
 
             return _isLiveSending ? "Live Desk sending" : "Live Desk stopped";
+        }
+
+        string GetPrimaryStateLabel()
+        {
+            if (_isTestSignalSending)
+                return "SENDING TEST SIGNAL";
+
+            if (_isLiveSending)
+                return "SENDING LIVE DESK";
+
+            if (_outputMode == ArtNetSendTestOutputMode.Once)
+                return "READY TO SEND ONCE";
+
+            return "STOPPED";
+        }
+
+        string GetCompactStateLabel()
+        {
+            if (_isTestSignalSending)
+                return "TEST SIGNAL";
+
+            if (_isLiveSending)
+                return "SENDING";
+
+            if (_outputMode == ArtNetSendTestOutputMode.Once)
+                return "ONCE";
+
+            return "STOPPED";
+        }
+
+        string GetPrimaryStateDetail()
+        {
+            if (_isTestSignalSending)
+                return "Universe " + _testUniverse + " test pattern at " + FormatRate() + " fps -> " + CurrentAddress + ":" + _port;
+
+            if (_isLiveSending)
+                return GetEnabledUniverseCount() + " enabled universe(s) at " + FormatRate() + " fps -> " + CurrentAddress + ":" + _port;
+
+            if (_outputMode == ArtNetSendTestOutputMode.Once)
+                return "Continuous output is stopped. Send Once will transmit enabled universes to " + CurrentAddress + ":" + _port;
+
+            return "No continuous Art-Net output. Target is " + CurrentAddress + ":" + _port;
+        }
+
+        Color GetPrimaryStateColor()
+        {
+            if (_isTestSignalSending)
+                return TestSignalBlue;
+
+            if (_isLiveSending)
+                return SendingBlue;
+
+            return _outputMode == ArtNetSendTestOutputMode.Once ? OnceGray : StoppedGray;
+        }
+
+        int GetEnabledUniverseCount()
+        {
+            var count = 0;
+            for (var i = 0; i < _universeEnabled.Length; i++)
+            {
+                if (_universeEnabled[i])
+                    count++;
+            }
+
+            return count;
+        }
+
+        string FormatRate()
+        {
+            return Mathf.Clamp(_sendRate, 1f, 60f).ToString("0.#");
+        }
+
+        static void DrawStatePill(string label, Color color, params GUILayoutOption[] options)
+        {
+            var rect = GUILayoutUtility.GetRect(1f, 18f, options);
+            EditorGUI.DrawRect(rect, color);
+
+            var style = new GUIStyle(EditorStyles.boldLabel)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = 10,
+                normal = { textColor = Color.white }
+            };
+
+            GUI.Label(rect, label, style);
         }
 
         static byte ToByte(float value)

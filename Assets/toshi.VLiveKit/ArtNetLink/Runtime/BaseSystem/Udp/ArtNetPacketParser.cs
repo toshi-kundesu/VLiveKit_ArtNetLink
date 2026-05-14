@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace toshi.VLiveKit.Lighting
 {
+    /// <summary>
+    /// Converts raw UDP Art-Net packet bytes into an ArtNetDataHandle before handing it to the lighting message flow.
+    /// </summary>
     internal sealed class ArtNetPacketParser
     {
         public ArtNetPacketParser(ArtNetMessageDispatcher dispatcher)

@@ -6,15 +6,12 @@
 
 using System.IO;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using toshi.VLiveKit.Lighting;
 
 namespace toshi.VLiveKit.Lighting
 {
     public class ArtNetRecorder : MonoBehaviour
     {
-        #if UNITY_EDITOR
         #region serialize field
 
         [SerializeField] private VLiveArtNetReceiver artNetClient;
@@ -47,6 +44,12 @@ namespace toshi.VLiveKit.Lighting
 
         private void RecordStart()
         {
+            if (artNetClient == null)
+            {
+                Debug.LogWarning("ArtNetRecorder requires a VLiveArtNetReceiver before recording.");
+                return;
+            }
+
             _curves = new AnimationCurve[ChannelCount];
             for (int i = 0; i < ChannelCount; i++)
                 _curves[i] = new AnimationCurve();
@@ -111,16 +114,27 @@ namespace toshi.VLiveKit.Lighting
             _curves = null;
             _isRecoding = false;
             
+            if (!ArtNetLinkEditorBridge.CanCreateAssets)
+            {
+                Debug.Log("ArtNet recording finished, but creating an AnimationClip asset is only available through the editor asset pipeline.");
+                return;
+            }
+
             var path = $"{Application.dataPath}/{directoryPath}";
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             var p = $"Assets/{directoryPath}/{clipName}.asset";
             while (File.Exists(p)) p = p.Split('.').First() + "_1.asset";
-            AssetDatabase.CreateAsset(clip, p);
-            AssetDatabase.Refresh();
+
+            if (!ArtNetLinkEditorBridge.CreateAsset(clip, p))
+            {
+                Debug.Log("ArtNet recording finished, but creating an AnimationClip asset is only available through the editor asset pipeline.");
+                return;
+            }
+
+            ArtNetLinkEditorBridge.RefreshAssets();
             Debug.Log("Record Finish");
         }
 
         #endregion
-        #endif
     }
 }
